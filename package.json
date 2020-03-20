@@ -8,8 +8,26 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "@types/animejs": "^3.1.0",
+    "@vx/geo": "^0.0.195",
+    "@vx/scale": "^0.0.195",
+    "animejs": "^3.1.0",
     "next": "9.3.1",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-use": "^13.27.0",
+    "topojson": "^3.0.2",
+    "topojson-client": "3"
+  },
+  "devDependencies": {
+    "@types/json2csv": "^4.5.1",
+    "@types/node": "^13.9.2",
+    "@types/react": "^16.9.23",
+    "@types/topojson-client": "^3.0.0",
+    "prettier": "1.19.1",
+    "raw-loader": "^4.0.0",
+    "typescript": "^3.8.3"
   }
 }
