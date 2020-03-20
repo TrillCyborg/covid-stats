@@ -3,7 +3,7 @@ import { useWindowSize } from 'react-use'
 import styled from '@emotion/styled'
 import { UnitedStates } from "../components/UnitedStates"
 
-const Title = styled.div`
+const Title = styled.h1`
   position: absolute;
   left: 0px;
   top: 0px;
@@ -32,6 +32,20 @@ const Modal = styled.div`
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 `
+const Footer = styled.p`
+  position: absolute;
+  bottom: 0;
+  color: #797979;
+  margin: 0;
+  font-size: 12px;
+  padding: 20px 30px;
+
+  opacity: 0;
+
+  a {
+    color: #797979;
+  }
+`
 
 const Home = () => {
   const { width, height } = useWindowSize()
@@ -43,18 +57,22 @@ const Home = () => {
         {/* <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap" rel="stylesheet"/> */}
         {/* <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet"/> */}
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
       </Head>
       <Title id="page-title">COVID-19</Title>
       <Modal id="info-modal">this is text</Modal>
       <div style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <UnitedStates width={width*0.8} height={height*0.8} />
       </div>
+      <Footer id="page-footer">
+        Made with ❤️<br/>by <a href="https://twitter.com/trillcyborg">@trillcyborg</a> for the sake of us all.
+      </Footer>
       <style jsx global>{`
         html,
         body {
           padding: 0;
           margin: 0;
-          font-family: Orbitron, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+          font-family: Open Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
             Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
           background-color: #030303;
           overflow: hidden;
@@ -62,6 +80,10 @@ const Home = () => {
   
         * {
           box-sizing: border-box;
+        }
+
+        h1 {
+          font-family: Orbitron;
         }
   
         .map-path {

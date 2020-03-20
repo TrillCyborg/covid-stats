@@ -93,6 +93,11 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                 duration: 800,
               }, 1800)
               .add({
+                targets: '#page-footer',
+                opacity: 0.4,
+                duration: 800,
+              }, 1800)
+              .add({
                 targets: '#map',
                 translateX: "-20%",
                 duration: 800,
