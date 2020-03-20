@@ -76,9 +76,13 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                 complete: () => setAnimationDone(true),
               })
               .add({
+                stroke: danger,
+                durration: 0,
+              })
+              .add({
                 strokeDashoffset: [anime.setDashoffset, 0],
                 delay: function(el, i) { return i * 15 },
-              })
+              }, 0)
               .add({
                 stroke: background,
                 fill: (el, i) => {
@@ -120,7 +124,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   id={feature.properties.name.toLowerCase().replace(' ', '-')}
                   d={mercator.path(feature)}
                   fill={background}
-                  stroke={danger}
+                  stroke={background}
                   // hidden={active !== feature.properties.name.toLowerCase().replace(' ', '-')}
                   animationDone={animationDone}
                   onClick={event => {
