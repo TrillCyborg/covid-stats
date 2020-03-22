@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import anime from 'animejs'
+import { useWindowSize } from 'react-use'
 import { scaleLinear, scaleSqrt, scaleQuantize } from '@vx/scale';
 import { AlbersUsa } from '@vx/geo';
 import * as topojson from 'topojson-client'
@@ -7,6 +8,7 @@ import { Topology } from 'topojson-specification'
 import { MapFeature } from './MapFeature'
 import topology from '../data/us.json'
 import { Data } from '../lib/data'
+import { BREAKPOINTS } from '../consts'
 
 const palltes = [
   { background: '#030303', danger: '#af0404', clear: '#030303', accent: '#ffac41' },
@@ -31,6 +33,7 @@ interface UnitedStatesProps {
 
 export const UnitedStates = (props: UnitedStatesProps) => {
   const { width, height } = props
+  const dimentions = useWindowSize()
   const [ready, setReady] = useState(false)
   const [animationDone, setAnimationDone] = useState(false)
   const { background, danger, clear } = currentPallet
@@ -52,7 +55,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
         {mercator => {
           useEffect(() => {
             if (ready) {
-              anime.timeline({
+              const tl = anime.timeline({
                 targets: '.map-path',
                 easing: 'easeInOutQuad',
                 complete: () => setAnimationDone(true),
@@ -83,16 +86,6 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                 opacity: 0.4,
                 duration: 800,
               }, 1800)
-              .add({
-                targets: '#map',
-                translateX: "-20%",
-                duration: 800,
-              }, 1800)
-              .add({
-                targets: '#info-modal',
-                translateX: 'calc(-100% - 30px)',
-                duration: 800,
-              }, 1800)
               // .add({
               //   targets: '#page-header',
               //   opacity: 1,
@@ -103,16 +96,40 @@ export const UnitedStates = (props: UnitedStatesProps) => {
               //   opacity: 0.4,
               //   duration: 0,
               // }, 0)
-              // .add({
-              //   targets: '#map',
-              //   translateX: "-20%",
-              //   duration: 0,
-              // }, 0)
-              // .add({
-              //   targets: '#info-modal',
-              //   translateX: 'calc(-100% - 30px)',
-              //   duration: 0,
-              // }, 0)
+              if (dimentions.width >= BREAKPOINTS[0]) {
+                tl
+                  .add({
+                    targets: '#map',
+                    translateX: "-20%",
+                    duration: 800,
+                  }, 1800)
+                  .add({
+                    targets: '#info-modal',
+                    translateX: 'calc(-100% - 30px)',
+                    duration: 800,
+                  }, 1800)
+                  // .add({
+                  //   targets: '#map',
+                  //   translateX: "-20%",
+                  //   duration: 0,
+                  // }, 0).add({
+                  //   targets: '#info-modal',
+                  //   translateX: 'calc(-100% - 30px)',
+                  //   duration: 0,
+                  // }, 0)
+              } else {
+                tl
+                  .add({
+                    targets: '#info-modal',
+                    opacity: 1,
+                    duration: 800,
+                  }, 1800)
+                  // }, 0).add({
+                  //   targets: '#info-modal',
+                  //   opacity: 1,
+                  //   duration: 0,
+                  // }, 0)
+              }
               return () => {}
             }
             return () => {}

@@ -6,6 +6,7 @@ import { AreaChart } from './AreaChart'
 import { BarChart } from './BarChart'
 import { ChartLabel } from './ChartLabel'
 import { ToggleChartButton, ChartMode } from './ToggleChartButton'
+import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -21,6 +22,17 @@ const Wrapper = styled.div`
   transform: translateX(100%);
   z-index: 1;
   overflow: auto;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    opacity: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    top: 80vh;
+    margin-bottom: 80vh;
+    transform: translateX(-30%);
+  }
 
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -47,27 +59,64 @@ const Wrapper = styled.div`
     border-radius: 30px;
   }
 `
+const TogglaWrapper = styled.div`
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    display: none;
+  }
+`
+const MobileTogglaWrapper = styled.div`
+  display: none;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+  }
+`
+const BackButton = styled.div`
+  color: var(--accent);
+  text-decoration: underline;
+  font-family: Orbitron;
+  font-size: 14px;
+  cursor: pointer;
+`
 
 interface ModalProps {
   data: Data
   currentState: string
+  clearState: () => void
 }
 
 export const Modal = (props: ModalProps) => {
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
-  const width = dimentions.width * 0.3 - 60
+  const width =
+    dimentions.width >= BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const state = props.data.states[props.currentState]
   const data = !!state ? state : props.data
-  console.log('DATA', data)
   return (
     <Wrapper id="info-modal">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
           {!!state ? state.state : 'National'}
         </h1>
-        <ToggleChartButton value={mode} onClick={setMode} />
+        <TogglaWrapper>
+          <ToggleChartButton value={mode} onClick={setMode} />
+        </TogglaWrapper>
       </div>
+      <MobileTogglaWrapper>
+        <ToggleChartButton value={mode} onClick={setMode} />
+        {!!state ? <BackButton onClick={props.clearState}>National</BackButton> : null}
+      </MobileTogglaWrapper>
+      {!!state ? (
+        <TogglaWrapper>
+          <BackButton style={{ marginTop: 6 }} onClick={props.clearState}>
+            National
+          </BackButton>
+        </TogglaWrapper>
+      ) : null}
       {mode === 'total' ? (
         <>
           <ChartLabel amount={data.totalCases}>Total Confirmed</ChartLabel>

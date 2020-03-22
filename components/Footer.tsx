@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.p`
   width: calc(70% - 30px);
@@ -18,6 +19,11 @@ const Wrapper = styled.p`
 
   a {
     color: var(--accent);
+  }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    bottom: 20vh;
+    width: 100%;
   }
 `
 

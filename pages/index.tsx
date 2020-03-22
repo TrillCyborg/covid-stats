@@ -7,6 +7,7 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Modal } from '../components/Modal'
 import { covidData } from '../lib/data'
+import { BREAKPOINTS } from '../consts'
 
 const MapWrapper = styled.div`
   width: 100%;
@@ -14,6 +15,11 @@ const MapWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    position: relative;
+    bottom: 50px;
+  }
 `
 
 const Home = () => {
@@ -35,18 +41,20 @@ const Home = () => {
           rel="stylesheet"
         />
       </Head>
-      <Header {...covidData} />
-      <Modal currentState={currentState} data={covidData} />
-      <MapWrapper>
-        <UnitedStates
-          data={covidData}
-          width={width * 0.8}
-          height={height * 0.8}
-          currentState={currentState}
-          setCurrentState={setCurrentState}
-        />
-      </MapWrapper>
-      <Footer />
+      <div id="page-wrapper">
+        <Header {...covidData} />
+        <MapWrapper>
+          <UnitedStates
+            data={covidData}
+            width={width > BREAKPOINTS[0] ? width * 0.8 : width}
+            height={height * 0.8}
+            currentState={currentState}
+            setCurrentState={setCurrentState}
+          />
+        </MapWrapper>
+        <Footer />
+      </div>
+      <Modal currentState={currentState} clearState={() => setCurrentState('')} data={covidData} />
 
       <style jsx global>{`
         html,
@@ -56,7 +64,7 @@ const Home = () => {
           font-family: Open Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
             Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
           background-color: #030303;
-          overflow: hidden;
+          overflow-x: hidden;
         }
 
         * {
@@ -86,6 +94,12 @@ const Home = () => {
         .map-path.active {
           stroke-width: 2px;
           stroke: var(--accent);
+        }
+
+        @media (max-width: ${BREAKPOINTS[0]}px) {
+          #page-wrapper {
+            position: fixed;
+          }
         }
 
         :root {

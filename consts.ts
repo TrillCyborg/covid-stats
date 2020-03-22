@@ -1,0 +1,1 @@
+export const BREAKPOINTS = [970, 1380]
