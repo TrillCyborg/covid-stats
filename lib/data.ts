@@ -5,13 +5,14 @@ const deathsCSV = require('../data/time-series/deaths.csv')
 const recoveriesCSV = require('../data/time-series/recoveries.csv')
 const dailyCSV = require('../data/reports/03-21-2020.csv')
 
-const fields = [
+const START_DATE = '02/24/2020'
+const FIELDS = [
   'state',
   'country',
   'latitude',
   'longitude',
 ]
-const dailyFields = [
+const DAILY_FIELDS = [
   'state',
   'country',
   'updatedAt',
@@ -21,7 +22,7 @@ const dailyFields = [
   'latitude',
   'longitude',
 ]
-const states = [
+const STATES = [
   'washington',
   'new-york',
   'california',
@@ -104,8 +105,10 @@ export type Data = {
   mostInfected: number
 }
 
-const dates = confirmedCSV.default.split('\n')[0].split(',').slice(fields.length)
+const dates = confirmedCSV.default.split('\n')[0].split(',').slice(FIELDS.length)
 const dailyRows = dailyCSV.default.split('\n').slice(1)
+
+const filterDates = (items: DateItem[]) => items.filter(item => item.date > moment(START_DATE, 'MM/DD/YYYY').valueOf())
 
 const parseData = (data: string) => {
   const rows = data.split('\n').slice(1)
@@ -113,12 +116,12 @@ const parseData = (data: string) => {
   rows.forEach((row) => {
     const item = {} as Item
     const cells = row.split(',')
-    fields.forEach((field, i) => {
+    FIELDS.forEach((field, i) => {
       item[field] = cells[i]
     })
 
     if (item.country === 'US') {
-      item.dates = cells.slice(fields.length).map(x => parseInt(x))
+      item.dates = cells.slice(FIELDS.length).map(x => parseInt(x))
       items[item.state.toLowerCase().replace(' ', '-')] = item
     }
   })
@@ -142,7 +145,7 @@ const getData = () => {
     const row = r.split(',')
     const rowObj = {} as any
   
-    dailyFields.forEach((field, i) => {
+    DAILY_FIELDS.forEach((field, i) => {
       rowObj[field] = row[i]
     })
   
@@ -162,11 +165,11 @@ const getData = () => {
     return obj
   }, {})
   
-  states.map((state) => {
+  STATES.map((state) => {
     const item = confirmed[state]
-    item.dates = confirmed[state].dates.map((c: number, i: number) => {
-      const date = moment(dates[i], 'MM/DD/YYYY').valueOf()
-      const stateConfirmed = c
+    item.dates = filterDates(dates.map((d: number, i: number) => {
+      const date = moment(d, 'MM/DD/YYYY').valueOf()
+      const stateConfirmed = confirmed[state].dates[i]
       const stateDeaths = deaths[state].dates[i]
       const stateRecoveries = recoveries[state].dates[i]
       if (!data.dates[i]) {
@@ -188,9 +191,12 @@ const getData = () => {
         deaths: stateDeaths,
         recoveries: stateRecoveries,
       }
-    })
+    }))
+
     data.states[state] = item
   })
+
+  data.dates = filterDates(data.dates)
 
   return data as Data
 }
