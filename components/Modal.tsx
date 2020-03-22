@@ -30,7 +30,6 @@ const Wrapper = styled.div`
     width: 100%;
     position: relative;
     top: 80vh;
-    margin-bottom: 80vh;
     transform: translateX(-30%);
   }
 
