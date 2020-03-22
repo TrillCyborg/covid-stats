@@ -48,9 +48,7 @@ export const AreaChart = (props: AreaChartProps) => {
   }
 
   const numTicksForWidth = w => {
-    if (w <= 300) return 2
-    if (300 < w && w <= 400) return 5
-    return 10
+    return data.length
   }
 
   // scales
@@ -117,6 +115,16 @@ export const AreaChart = (props: AreaChartProps) => {
             strokeDasharray="2,2"
             stroke="rgba(255,255,255,0.15)"
           /> */}
+            <AreaClosed
+              data={data}
+              x={d => xScale(xVal(d))}
+              y={d => yScale(yVal(d))}
+              yScale={yScale}
+              strokeWidth={1}
+              stroke={`url(#gradient-${props.valueKey})`}
+              fill={`url(#gradient-${props.valueKey})`}
+              curve={curveMonotoneX}
+            />
             <Grid
               xScale={xScale}
               yScale={yScale}
@@ -127,7 +135,7 @@ export const AreaChart = (props: AreaChartProps) => {
               numTicksColumns={numTicksForWidth(width)}
             />
             <AxisLeft
-              left={30}
+              left={34}
               scale={yScale}
               hideZero
               numTicks={numTicksForHeight(height)}
@@ -151,16 +159,6 @@ export const AreaChart = (props: AreaChartProps) => {
               // tickComponent={({ formattedValue, ...tickProps }) => (
               //   <text {...tickProps}>{formattedValue}</text>
               // )}
-            />
-            <AreaClosed
-              data={data}
-              x={d => xScale(xVal(d))}
-              y={d => yScale(yVal(d))}
-              yScale={yScale}
-              strokeWidth={1}
-              stroke={`url(#gradient-${props.valueKey})`}
-              fill={`url(#gradient-${props.valueKey})`}
-              curve={curveMonotoneX}
             />
             {/* <LinePath
               data={data}

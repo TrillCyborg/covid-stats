@@ -72,46 +72,46 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                 },
                 delay: function(el, i) { return i * 10 },
               }, 600)
-              // .add({
-              //   targets: '#page-header',
-              //   opacity: 1,
-              //   duration: 800,
-              // }, 1800)
-              // .add({
-              //   targets: '#page-footer',
-              //   opacity: 0.4,
-              //   duration: 800,
-              // }, 1800)
-              // .add({
-              //   targets: '#map',
-              //   translateX: "-20%",
-              //   duration: 800,
-              // }, 1800)
-              // .add({
-              //   targets: '#info-modal',
-              //   translateX: 'calc(-100% - 30px)',
-              //   duration: 800,
-              // }, 1800)
               .add({
                 targets: '#page-header',
                 opacity: 1,
-                duration: 0,
-              }, 0)
+                duration: 800,
+              }, 1800)
               .add({
                 targets: '#page-footer',
                 opacity: 0.4,
-                duration: 0,
-              }, 0)
+                duration: 800,
+              }, 1800)
               .add({
                 targets: '#map',
                 translateX: "-20%",
-                duration: 0,
-              }, 0)
+                duration: 800,
+              }, 1800)
               .add({
                 targets: '#info-modal',
                 translateX: 'calc(-100% - 30px)',
-                duration: 0,
-              }, 0)
+                duration: 800,
+              }, 1800)
+              // .add({
+              //   targets: '#page-header',
+              //   opacity: 1,
+              //   duration: 0,
+              // }, 0)
+              // .add({
+              //   targets: '#page-footer',
+              //   opacity: 0.4,
+              //   duration: 0,
+              // }, 0)
+              // .add({
+              //   targets: '#map',
+              //   translateX: "-20%",
+              //   duration: 0,
+              // }, 0)
+              // .add({
+              //   targets: '#info-modal',
+              //   translateX: 'calc(-100% - 30px)',
+              //   duration: 0,
+              // }, 0)
               return () => {}
             }
             return () => {}

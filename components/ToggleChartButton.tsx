@@ -14,11 +14,11 @@ const Button = styled.div<{ active: boolean }>`
   font-weight: bold;
   font-family: Orbitron;
 
-  opacity: ${props => (props.active ? 1 : 0.5)};
+  opacity: ${props => (props.active ? 1 : 0.4)};
 `
 
 const Divider = () => (
-  <div style={{ opacity: 0.5, color: 'var(--accent)', position: 'relative', bottom: 2 }}>|</div>
+  <div style={{ opacity: 0.4, color: 'var(--accent)', position: 'relative', bottom: 2 }}>|</div>
 )
 
 export type ChartMode = 'total' | 'daily'

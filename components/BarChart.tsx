@@ -46,9 +46,7 @@ export const BarChart = (props: BarChartProps) => {
   }
 
   const numTicksForWidth = w => {
-    if (w <= 300) return 2
-    if (300 < w && w <= 400) return 5
-    return 10
+    return data.length
   }
 
   // bounds
@@ -78,7 +76,7 @@ export const BarChart = (props: BarChartProps) => {
     }
     setTooltip({
       tooltipData: d,
-      tooltipLeft: x - 2,
+      tooltipLeft: x - 17,
       tooltipTop: yScale(d.value),
     })
   }
@@ -99,13 +97,13 @@ export const BarChart = (props: BarChartProps) => {
           {/* <GradientTealBlue id="teal" />
         <rect width={width} height={height} fill={'url(#teal)'} rx={14} /> */}
           <rect x={0} y={0} width={width} height={height} fill="#060606" rx={14} />
-          <Group top={yMax * 0.05} left={xMax * 0.025}>
+          <Group top={yMax * 0.05} left={xMax * 0.03}>
             {data.map((d, i) => {
               const y = yScale(yVal(d))
               const date = xVal(d)
-              const barWidth = (width * 0.75) / data.length // xScale.bandwidth()
+              const barWidth = (xMax * 0.5) / data.length // xScale.bandwidth()
               const barHeight = yMax - y
-              const barX = xScale(date)
+              const barX = xScale(date) - 12
               const barY = yMax - barHeight
               return (
                 <Bar
@@ -115,9 +113,9 @@ export const BarChart = (props: BarChartProps) => {
                   width={barWidth}
                   height={barHeight}
                   fill={color}
-                  onClick={event => {
-                    alert(`clicked: ${JSON.stringify(Object.values(d))}`)
-                  }}
+                  // onClick={event => {
+                  //   alert(`clicked: ${JSON.stringify(Object.values(d))}`)
+                  // }}
                 />
               )
             })}
@@ -131,7 +129,7 @@ export const BarChart = (props: BarChartProps) => {
               numTicksColumns={numTicksForWidth(width)}
             />
             <AxisLeft
-              left={30}
+              left={34}
               scale={yScale}
               hideZero
               numTicks={numTicksForHeight(height)}
