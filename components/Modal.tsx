@@ -50,73 +50,98 @@ const Wrapper = styled.div`
 
 interface ModalProps {
   data: Data
+  currentState: string
 }
 
 export const Modal = (props: ModalProps) => {
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
   const width = dimentions.width * 0.3 - 60
-  const data = props.data.dates
+  const state = props.data.states[props.currentState]
+  const data = !!state ? state : props.data
+  console.log('DATA', data)
   return (
     <Wrapper id="info-modal">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>National</h1>
+        <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
+          {!!state ? state.state : 'National'}
+        </h1>
         <ToggleChartButton value={mode} onClick={setMode} />
       </div>
       {mode === 'total' ? (
         <>
-          <ChartLabel amount={props.data.totalCases}>Total Confirmed</ChartLabel>
+          <ChartLabel amount={data.totalCases}>Total Confirmed</ChartLabel>
           <AreaChart
             width={width}
             height={200}
-            data={data}
+            data={data.dates}
             valueKey="confirmed"
             color="var(--accent)"
           />
 
-          <ChartLabel amount={props.data.totalDeaths}>Total Deaths</ChartLabel>
+          <ChartLabel amount={data.totalDeaths}>Total Deaths</ChartLabel>
           <AreaChart
             width={width}
             height={200}
-            data={data}
+            data={data.dates}
             valueKey="deaths"
             color="var(--danger)"
           />
 
-          <ChartLabel amount={props.data.totalRecoveries}>Total Recoveries</ChartLabel>
+          <ChartLabel amount={data.totalRecoveries}>Total Recoveries</ChartLabel>
           <AreaChart
             width={width}
             height={200}
-            data={data}
+            data={data.dates}
             valueKey="recoveries"
             color="var(--success)"
           />
         </>
       ) : (
         <>
-          <ChartLabel>Daily Confirmed</ChartLabel>
+          <ChartLabel
+            amount={
+              data.dates[data.dates.length - 1].confirmed -
+              data.dates[data.dates.length - 2].confirmed
+            }
+          >
+            Daily Confirmed
+          </ChartLabel>
           <BarChart
             width={width}
             height={200}
-            data={data}
+            data={data.dates}
             valueKey="confirmed"
             color="var(--accent)"
           />
 
-          <ChartLabel>Daily Deaths</ChartLabel>
+          <ChartLabel
+            amount={
+              data.dates[data.dates.length - 1].deaths - data.dates[data.dates.length - 2].deaths
+            }
+          >
+            Daily Deaths
+          </ChartLabel>
           <BarChart
             width={width}
             height={200}
-            data={data}
+            data={data.dates}
             valueKey="deaths"
             color="var(--danger)"
           />
 
-          <ChartLabel>Daily Recoveries</ChartLabel>
+          <ChartLabel
+            amount={
+              data.dates[data.dates.length - 1].recoveries -
+              data.dates[data.dates.length - 2].recoveries
+            }
+          >
+            Daily Recoveries
+          </ChartLabel>
           <BarChart
             width={width}
             height={200}
-            data={data}
+            data={data.dates}
             valueKey="recoveries"
             color="var(--success)"
           />

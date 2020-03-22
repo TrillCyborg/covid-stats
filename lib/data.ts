@@ -96,6 +96,10 @@ export type Data = {
     country: string
     latitude: string
     longitude: string
+    totalCases: number
+    totalDeaths: number
+    totalRecoveries: number
+    mostInfected: number
     dates: DataItem
   },
   dates: DateItem[],
@@ -184,6 +188,12 @@ const getData = () => {
       data.dates[i].confirmed += stateConfirmed
       data.dates[i].deaths += stateDeaths
       data.dates[i].recoveries += stateRecoveries
+
+      if (i === dates.length - 1) {
+        item.totalCases = stateConfirmed
+        item.totalDeaths = stateDeaths
+        item.totalRecoveries = stateRecoveries
+      }
 
       return {
         date: date,

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import { useWindowSize } from 'react-use'
 import styled from '@emotion/styled'
@@ -16,6 +17,7 @@ const MapWrapper = styled.div`
 `
 
 const Home = () => {
+  const [currentState, setCurrentState] = useState<string>('')
   const { width, height } = useWindowSize()
   return (
     <div className="container">
@@ -34,12 +36,14 @@ const Home = () => {
         />
       </Head>
       <Header {...covidData} />
-      <Modal data={covidData} />
+      <Modal currentState={currentState} data={covidData} />
       <MapWrapper>
         <UnitedStates
           data={covidData}
           width={width * 0.8}
           height={height * 0.8}
+          currentState={currentState}
+          setCurrentState={setCurrentState}
         />
       </MapWrapper>
       <Footer />

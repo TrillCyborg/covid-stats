@@ -25,13 +25,14 @@ interface UnitedStatesProps {
   width: number
   height: number
   data: Data
+  currentState: string
+  setCurrentState: (state: string) => void
 }
 
 export const UnitedStates = (props: UnitedStatesProps) => {
   const { width, height } = props
   const [ready, setReady] = useState(false)
   const [animationDone, setAnimationDone] = useState(false)
-  const [active, setActive] = useState('')
   const { background, danger, clear } = currentPallet
 
   const color = useMemo(() => scaleSqrt({
@@ -127,9 +128,10 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   fill={background}
                   stroke={background}
                   animationDone={animationDone}
+                  currentState={props.currentState}
                   onClick={event => {
                     // alert(`clicked: ${feature.properties.name} (${feature.id})`);
-                    setActive(feature.properties.name.toLowerCase().replace(' ', '-'))
+                    props.setCurrentState(feature.properties.name.toLowerCase().replace(' ', '-'))
                   }}
                 />
               ))}

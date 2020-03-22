@@ -50,7 +50,7 @@ export const BarChart = (props: BarChartProps) => {
   }
 
   // bounds
-  const xMax = width * 0.94
+  const xMax = width * 0.95
   const yMax = height * 0.9
 
   const xScale = scaleTime({
@@ -97,7 +97,7 @@ export const BarChart = (props: BarChartProps) => {
           {/* <GradientTealBlue id="teal" />
         <rect width={width} height={height} fill={'url(#teal)'} rx={14} /> */}
           <rect x={0} y={0} width={width} height={height} fill="#060606" rx={14} />
-          <Group top={yMax * 0.05} left={xMax * 0.03}>
+          <Group top={yMax * 0.05} left={xMax * 0.025}>
             {data.map((d, i) => {
               const y = yScale(yVal(d))
               const date = xVal(d)
