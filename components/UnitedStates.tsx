@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import anime from 'animejs'
-import { useWindowSize } from 'react-use'
-import * as topojson from 'topojson-client';
-import { Topology } from 'topojson-specification'
 import { scaleLinear, scaleSqrt, scaleQuantize } from '@vx/scale';
 import { AlbersUsa } from '@vx/geo';
-import topology from '../data/us.json';
+import * as topojson from 'topojson-client'
+import { Topology } from 'topojson-specification'
 import { MapFeature } from './MapFeature'
-const covidCSV = require('../data/03-19-2020.csv');
+import topology from '../data/us.json'
+import { Data } from '../lib/data'
 
 const palltes = [
   { background: '#030303', danger: '#af0404', clear: '#030303', accent: '#ffac41' },
@@ -17,46 +16,28 @@ const palltes = [
 const currentPallet = palltes[1]
 const colorRange = [currentPallet.clear, currentPallet.danger]
 
-let mostInfected = 0
-const dataFields = ['state', 'country', 'updatedAt', 'confirmed', 'deaths', 'recovered', 'latitude', 'longitude'];
-const covidRows = covidCSV.default.split('\n').slice(1)
-const covidData = covidRows.reduce((obj, r) => {
-  const row = r.split(',')
-  const rowObj = {} as any
-
-  dataFields.forEach((field, i) => {
-    rowObj[field] = row[i]
-  })
-
-  if (rowObj.country === 'US') {
-    obj[row[0].toLowerCase().replace(' ', '-')] = rowObj
-    const confirmed = parseInt(rowObj.confirmed)
-    if (confirmed > mostInfected) {
-      mostInfected = confirmed
-    }
-  }
-
-  return obj
-}, {})
-
-const map = topojson.feature(topology as unknown as Topology, topology.objects.states as any) as any
-const color = scaleSqrt({
-  domain: [0, mostInfected],
-  range: colorRange
-});
+const map = topojson.feature(
+  (topology as unknown) as Topology,
+  topology.objects.states as any
+) as any
 
 interface UnitedStatesProps {
   width: number
   height: number
+  data: Data
 }
 
 export const UnitedStates = (props: UnitedStatesProps) => {
   const { width, height } = props
-  const dimentions = useWindowSize()
   const [ready, setReady] = useState(false)
   const [animationDone, setAnimationDone] = useState(false)
   const [active, setActive] = useState('')
   const { background, danger, clear } = currentPallet
+
+  const color = useMemo(() => scaleSqrt({
+    domain: [0, props.data.mostInfected],
+    range: colorRange
+  }), [props.data.mostInfected]);
 
   useEffect(() => {
     setReady(true)
@@ -86,31 +67,51 @@ export const UnitedStates = (props: UnitedStatesProps) => {
               .add({
                 stroke: background,
                 fill: (el, i) => {
-                  const data = covidData[el.id]
-                  return data ? color(data.confirmed) : background
+                  const data = props.data.states[el.id]
+                  return data ? color(data.dates[data.dates.length - 1].confirmed) : background
                 },
                 delay: function(el, i) { return i * 10 },
               }, 600)
+              // .add({
+              //   targets: '#page-header',
+              //   opacity: 1,
+              //   duration: 800,
+              // }, 1800)
+              // .add({
+              //   targets: '#page-footer',
+              //   opacity: 0.4,
+              //   duration: 800,
+              // }, 1800)
+              // .add({
+              //   targets: '#map',
+              //   translateX: "-20%",
+              //   duration: 800,
+              // }, 1800)
+              // .add({
+              //   targets: '#info-modal',
+              //   translateX: 'calc(-100% - 30px)',
+              //   duration: 800,
+              // }, 1800)
               .add({
-                targets: '#page-title',
+                targets: '#page-header',
                 opacity: 1,
-                duration: 800,
-              }, 1800)
+                duration: 0,
+              }, 0)
               .add({
                 targets: '#page-footer',
                 opacity: 0.4,
-                duration: 800,
-              }, 1800)
+                duration: 0,
+              }, 0)
               .add({
                 targets: '#map',
                 translateX: "-20%",
-                duration: 800,
-              }, 1800)
+                duration: 0,
+              }, 0)
               .add({
                 targets: '#info-modal',
                 translateX: 'calc(-100% - 30px)',
-                duration: 800,
-              }, 1800)
+                duration: 0,
+              }, 0)
               return () => {}
             }
             return () => {}
@@ -125,7 +126,6 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   d={mercator.path(feature)}
                   fill={background}
                   stroke={background}
-                  // hidden={active !== feature.properties.name.toLowerCase().replace(' ', '-')}
                   animationDone={animationDone}
                   onClick={event => {
                     // alert(`clicked: ${feature.properties.name} (${feature.id})`);

@@ -6,7 +6,6 @@ interface MapFeatureProps {
   fill: string
   stroke: string
   animationDone: boolean
-  hidden?: boolean
   onClick?: (e: React.MouseEvent<SVGPathElement, MouseEvent>) => void
 }
 
@@ -31,7 +30,7 @@ export const MapFeature = (props: MapFeatureProps) => {
     <path
       id={props.id}
       ref={ref}
-      className={`map-path ${props.animationDone ? 'animation-done' : ''} ${props.hidden ? 'inactive' : ''}`}
+      className={`map-path ${props.animationDone ? 'animation-done' : ''}`}
       d={props.d}
       fill={props.fill}
       stroke={props.stroke}
