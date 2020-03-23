@@ -16,6 +16,25 @@ const WrapperOuter = styled.div`
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+
+  &::-webkit-scrollbar-track {
+    /* border-radius: 10px; */
+    background-color: transparent;
+    width: 12px;
+    /* overflow: hidden; */
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--accent);
+    border-radius: 30px;
+  }
 `
 const Wrapper = styled.div`
   position: absolute;
