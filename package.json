@@ -28,6 +28,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-feather": "^2.0.3",
+    "react-ga": "^2.7.0",
     "react-use": "^13.27.0",
     "topojson": "^3.0.2",
     "topojson-client": "3"

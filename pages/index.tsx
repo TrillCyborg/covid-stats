@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import ReactGA from 'react-ga';
 import { useWindowSize } from 'react-use'
 import styled from '@emotion/styled'
 import { UnitedStates } from '../components/UnitedStates'
@@ -25,6 +26,11 @@ const MapWrapper = styled.div`
 const Home = () => {
   const [currentState, setCurrentState] = useState<string>('')
   const { width, height } = useWindowSize()
+
+  useEffect(() => {
+    ReactGA.initialize('UA-161595327-1');
+  }, [true])
+
   return (
     <div className="container">
       <Head>
