@@ -101,16 +101,16 @@ export const Modal = (props: ModalProps) => {
   const [ready, setReady] = useState(false)
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
+  const state = props.data.states[props.currentState]
+  const data = !!state ? state : props.data.usa
   const width =
     dimentions.width > BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const height =
     dimentions.width > BREAKPOINTS[1]
-      ? (dimentions.height - 364) / 3
+      ? (dimentions.height - (!!state ? 387 : 364)) / 3
       : dimentions.width > BREAKPOINTS[0]
       ? (dimentions.height - 400) / 3
       : 200
-  const state = props.data.states[props.currentState]
-  const data = !!state ? state : props.data.usa
 
   useEffect(() => {
     setReady(true)
