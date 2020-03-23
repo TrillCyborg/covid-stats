@@ -86,7 +86,7 @@ const BackButton = styled.div`
 `
 
 const LastUpdated = (props: { date: number }) => (
-  <div style={{ fontSize: 12, color: 'var(--accent)' }}>
+  <div style={{ fontSize: 12, color: 'var(--accent)', marginTop: 15, textAlign: 'center' }}>
     Last Updated: {moment(props.date).format('MM/DD/YYYY')}
   </div>
 )
@@ -144,7 +144,6 @@ export const Modal = (props: ModalProps) => {
             valueKey="confirmed"
             color="var(--accent)"
           />
-          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
           <ChartLabel amount={data.timeline[data.timeline.length - 1].deaths}>
             Total Deaths
@@ -156,7 +155,6 @@ export const Modal = (props: ModalProps) => {
             valueKey="deaths"
             color="var(--danger)"
           />
-          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
           <ChartLabel amount={data.timeline[data.timeline.length - 1].recoveries}>
             Total Recoveries
@@ -168,7 +166,6 @@ export const Modal = (props: ModalProps) => {
             valueKey="recoveries"
             color="var(--success)"
           />
-          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
         </>
       ) : (
         <>
@@ -187,7 +184,6 @@ export const Modal = (props: ModalProps) => {
             valueKey="confirmed"
             color="var(--accent)"
           />
-          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
           <ChartLabel
             amount={
@@ -204,7 +200,6 @@ export const Modal = (props: ModalProps) => {
             valueKey="deaths"
             color="var(--danger)"
           />
-          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
           <ChartLabel
             amount={
@@ -221,9 +216,9 @@ export const Modal = (props: ModalProps) => {
             valueKey="recoveries"
             color="var(--success)"
           />
-          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
         </>
       )}
+      <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
     </Wrapper>
   ) : null
 }
