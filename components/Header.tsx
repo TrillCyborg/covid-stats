@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import numeral from 'numeral'
+import { DataItem } from '../lib/utils'
 import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.div`
@@ -67,13 +68,7 @@ const StatList = styled.div`
   }
 `
 
-interface HeaderProps {
-  totalCases: number
-  totalDeaths: number
-  totalRecoveries: number
-}
-
-export const Header = (props: HeaderProps) => {
+export const Header = (props: DataItem) => {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -87,18 +82,18 @@ export const Header = (props: HeaderProps) => {
       <StatList>
         <StatWrapper>
           <StatLabel>Infected:</StatLabel>
-          <StatNumber>{numeral(props.totalCases).format('0,0')}</StatNumber>
+          <StatNumber>{numeral(props.cases).format('0,0')}</StatNumber>
         </StatWrapper>
         <StatWrapper>
           <StatLabel>Deaths:</StatLabel>
           <StatNumber style={{ color: 'var(--danger)' }}>
-            {numeral(props.totalDeaths).format('0,0')}
+            {numeral(props.deaths).format('0,0')}
           </StatNumber>
         </StatWrapper>
         <StatWrapper>
           <StatLabel>Recoveries:</StatLabel>
           <StatNumber style={{ color: 'var(--success)' }}>
-            {numeral(props.totalRecoveries).format('0,0')}
+            {numeral(props.recovered).format('0,0')}
           </StatNumber>
         </StatWrapper>
       </StatList>

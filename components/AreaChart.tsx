@@ -10,7 +10,7 @@ import { AxisLeft, AxisRight, AxisBottom } from '@vx/axis'
 import { extent, max } from 'd3-array'
 import { bisector } from 'd3-array'
 import { ChartTooltip } from './ChartTooltip'
-import { DateItem } from '../lib/data'
+import { DateItem } from '../lib/utils'
 
 // accessors
 const xVal = d => d.date

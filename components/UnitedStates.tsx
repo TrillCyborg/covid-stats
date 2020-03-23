@@ -8,7 +8,8 @@ import * as topojson from 'topojson-client'
 import { Topology } from 'topojson-specification'
 import { MapFeature } from './MapFeature'
 import topology from '../data/us.json'
-import { Data } from '../lib/data'
+import { Data } from '../lib/utils'
+import { nomalizeState } from '../lib/utils'
 import { BREAKPOINTS } from '../consts'
 
 const palltes = [
@@ -84,7 +85,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   stroke: background,
                   fill: (el, i) => {
                     const data = props.data.states[el.id]
-                    return data ? color(data.dates[data.dates.length - 1].confirmed) : background
+                    return data ? color(data.timeline[data.timeline.length - 1].confirmed) : background
                   },
                   delay: function(el, i) {
                     return i * 10
@@ -100,7 +101,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
               {mercator.features.map(({ feature }: any, i) => (
                 <MapFeature
                   key={`map-feature-${i}`}
-                  id={feature.properties.name.toLowerCase().replace(' ', '-')}
+                  id={nomalizeState(feature.properties.name)}
                   d={mercator.path(feature)}
                   fill={background}
                   stroke={background}
@@ -108,7 +109,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   currentState={props.currentState}
                   onClick={event => {
                     // alert(`clicked: ${feature.properties.name} (${feature.id})`);
-                    props.setCurrentState(feature.properties.name.toLowerCase().replace(' ', '-'))
+                    props.setCurrentState(nomalizeState(feature.properties.name))
                   }}
                 />
               ))}

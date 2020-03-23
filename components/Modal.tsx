@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import moment from 'moment'
 import { useWindowSize } from 'react-use'
-import { Data } from '../lib/data'
+import { Data } from '../lib/utils'
 import { AreaChart } from './AreaChart'
 import { BarChart } from './BarChart'
 import { ChartLabel } from './ChartLabel'
@@ -84,6 +85,12 @@ const BackButton = styled.div`
   cursor: pointer;
 `
 
+const LastUpdated = (props: { date: number }) => (
+  <div style={{ fontSize: 12, color: 'var(--accent)' }}>
+    Last Updated: {moment(props.date).format('MM/DD/YYYY')}
+  </div>
+)
+
 interface ModalProps {
   data: Data
   currentState: string
@@ -97,7 +104,7 @@ export const Modal = (props: ModalProps) => {
   const width =
     dimentions.width >= BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const state = props.data.states[props.currentState]
-  const data = !!state ? state : props.data
+  const data = !!state ? state : props.data.usa
 
   useEffect(() => {
     setReady(true)
@@ -108,7 +115,7 @@ export const Modal = (props: ModalProps) => {
     <Wrapper id="info-modal">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
-          {!!state ? state.state : 'United States'}
+          {!!state ? state.name : 'United States'}
         </h1>
         <TogglaWrapper>
           <ToggleChartButton value={mode} onClick={setMode} />
@@ -121,45 +128,54 @@ export const Modal = (props: ModalProps) => {
       {!!state ? (
         <TogglaWrapper>
           <BackButton style={{ marginTop: 6 }} onClick={props.clearState}>
-          United States
+            United States
           </BackButton>
         </TogglaWrapper>
       ) : null}
       {mode === 'total' ? (
         <>
-          <ChartLabel amount={data.totalCases}>Total Confirmed</ChartLabel>
+          <ChartLabel amount={data.timeline[data.timeline.length - 1].confirmed}>
+            Total Confirmed
+          </ChartLabel>
           <AreaChart
             width={width}
             height={200}
-            data={data.dates}
+            data={data.timeline}
             valueKey="confirmed"
             color="var(--accent)"
           />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
-          <ChartLabel amount={data.totalDeaths}>Total Deaths</ChartLabel>
+          <ChartLabel amount={data.timeline[data.timeline.length - 1].deaths}>
+            Total Deaths
+          </ChartLabel>
           <AreaChart
             width={width}
             height={200}
-            data={data.dates}
+            data={data.timeline}
             valueKey="deaths"
             color="var(--danger)"
           />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
-          <ChartLabel amount={data.totalRecoveries}>Total Recoveries</ChartLabel>
+          <ChartLabel amount={data.timeline[data.timeline.length - 1].recoveries}>
+            Total Recoveries
+          </ChartLabel>
           <AreaChart
             width={width}
             height={200}
-            data={data.dates}
+            data={data.timeline}
             valueKey="recoveries"
             color="var(--success)"
           />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
         </>
       ) : (
         <>
           <ChartLabel
             amount={
-              data.dates[data.dates.length - 1].confirmed -
-              data.dates[data.dates.length - 2].confirmed
+              data.timeline[data.timeline.length - 1].confirmed -
+              data.timeline[data.timeline.length - 2].confirmed
             }
           >
             Daily Confirmed
@@ -167,14 +183,16 @@ export const Modal = (props: ModalProps) => {
           <BarChart
             width={width}
             height={200}
-            data={data.dates}
+            data={data.timeline}
             valueKey="confirmed"
             color="var(--accent)"
           />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
           <ChartLabel
             amount={
-              data.dates[data.dates.length - 1].deaths - data.dates[data.dates.length - 2].deaths
+              data.timeline[data.timeline.length - 1].deaths -
+              data.timeline[data.timeline.length - 2].deaths
             }
           >
             Daily Deaths
@@ -182,15 +200,16 @@ export const Modal = (props: ModalProps) => {
           <BarChart
             width={width}
             height={200}
-            data={data.dates}
+            data={data.timeline}
             valueKey="deaths"
             color="var(--danger)"
           />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
 
           <ChartLabel
             amount={
-              data.dates[data.dates.length - 1].recoveries -
-              data.dates[data.dates.length - 2].recoveries
+              data.timeline[data.timeline.length - 1].recoveries -
+              data.timeline[data.timeline.length - 2].recoveries
             }
           >
             Daily Recoveries
@@ -198,10 +217,11 @@ export const Modal = (props: ModalProps) => {
           <BarChart
             width={width}
             height={200}
-            data={data.dates}
+            data={data.timeline}
             valueKey="recoveries"
             color="var(--success)"
           />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
         </>
       )}
     </Wrapper>

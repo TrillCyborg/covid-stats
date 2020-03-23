@@ -43,9 +43,7 @@ export const Footer = () => {
         Stay home.
       </div>
       <div style={{ textAlign: 'right' }}>
-        <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Data Source</a>
-        <br />
-        Last update: 03/21/2020
+        <a href="https://github.com/NovelCOVID/API" target="_blank">Data Source</a>
       </div>
     </Wrapper>
   ) : null

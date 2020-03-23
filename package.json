@@ -22,6 +22,8 @@
     "@vx/shape": "^0.0.195",
     "@vx/tooltip": "^0.0.195",
     "animejs": "^3.1.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "next": "9.3.1",
     "numeral": "^2.0.6",
