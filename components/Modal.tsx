@@ -108,7 +108,7 @@ export const Modal = (props: ModalProps) => {
     <Wrapper id="info-modal">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
-          {!!state ? state.state : 'National'}
+          {!!state ? state.state : 'United States'}
         </h1>
         <TogglaWrapper>
           <ToggleChartButton value={mode} onClick={setMode} />
@@ -116,12 +116,12 @@ export const Modal = (props: ModalProps) => {
       </div>
       <MobileTogglaWrapper>
         <ToggleChartButton value={mode} onClick={setMode} />
-        {!!state ? <BackButton onClick={props.clearState}>National</BackButton> : null}
+        {!!state ? <BackButton onClick={props.clearState}>United States</BackButton> : null}
       </MobileTogglaWrapper>
       {!!state ? (
         <TogglaWrapper>
           <BackButton style={{ marginTop: 6 }} onClick={props.clearState}>
-            National
+          United States
           </BackButton>
         </TogglaWrapper>
       ) : null}
