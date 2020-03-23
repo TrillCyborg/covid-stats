@@ -8,7 +8,7 @@ import { AxisLeft } from '@vx/axis'
 import { localPoint } from '@vx/event'
 import { bisector, max, extent } from 'd3-array'
 import { ChartTooltip } from './ChartTooltip'
-import { DateItem } from '../lib/data'
+import { DateItem } from '../lib/utils'
 
 // accessors
 const xVal = d => d.date

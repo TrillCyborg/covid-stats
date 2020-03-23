@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { nomalizeState } from './utils'
 
 const confirmedCSV = require('../data/time-series/confirmed.csv')
 const deathsCSV = require('../data/time-series/deaths.csv')
@@ -22,7 +23,7 @@ const DAILY_FIELDS = [
   'latitude',
   'longitude',
 ]
-const STATES = [
+export const STATES = [
   'washington',
   'new-york',
   'california',
@@ -73,7 +74,7 @@ const STATES = [
   'west-virginia',
   'wyoming',
   'alabama',
-  // 'district-of columbia',
+  // 'district-of-columbia',
   // 'diamond-princess',
   // 'grand-princess',
   // 'puerto-rico',
@@ -126,7 +127,7 @@ const parseData = (data: string) => {
 
     if (item.country === 'US') {
       item.dates = cells.slice(FIELDS.length).map(x => parseInt(x))
-      items[item.state.toLowerCase().replace(' ', '-')] = item
+      items[nomalizeState(item.state)] = item
     }
   })
   return items
@@ -154,7 +155,7 @@ const getData = () => {
     })
   
     if (rowObj.country === 'US') {
-      obj[row[0].toLowerCase().replace(' ', '-')] = rowObj
+      obj[nomalizeState(row[0])] = rowObj
       const confirmed = parseInt(rowObj.confirmed)
       const deaths = parseInt(rowObj.deaths)
       const recoveries = parseInt(rowObj.recovered)
