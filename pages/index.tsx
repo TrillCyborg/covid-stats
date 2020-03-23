@@ -72,6 +72,23 @@ const Home = () => {
             Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
           background-color: #030303;
           overflow-x: hidden;
+
+          scrollbar-width: thin;
+          scrollbar-color: var(--accent) transparent;
+        }
+
+        body::-webkit-scrollbar-track {
+          background-color: transparent;
+          width: 12px;
+        }
+      
+        body::-webkit-scrollbar {
+          width: 6px;
+        }
+      
+        body::-webkit-scrollbar-thumb {
+          background-color: var(--accent);
+          border-radius: 30px;
         }
 
         * {

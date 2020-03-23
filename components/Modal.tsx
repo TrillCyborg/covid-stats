@@ -10,15 +10,17 @@ import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 30px;
-  right: calc(-30% - 0px);
+  top: 0px;
+  right: calc(-30%);
   padding: 15px 30px;
+  margin: 30px 0px;
   width: 30%;
   height: calc(100% - 60px);
+  /* height: auto; */
+  transform: translateX(-100%);
   border-radius: 16px;
   background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  transform: translateX(100%);
   z-index: 1;
   overflow: auto;
 
@@ -26,9 +28,13 @@ const Wrapper = styled.div`
     opacity: 0;
     overflow: hidden;
     width: 100%;
+    height: auto;
+    margin: 0px;
     position: absolute;
+    transform: translateX(0);
+    left: 0;
+    right: 0;
     top: 80vh;
-    transform: translateX(-30%);
   }
 
   -webkit-backdrop-filter: blur(10px);
