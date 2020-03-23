@@ -23,6 +23,7 @@ const Wrapper = styled.p`
   @media (max-width: ${BREAKPOINTS[0]}px) {
     bottom: 20vh;
     width: 100%;
+    font-size: 10px;
   }
 `
 
@@ -37,9 +38,9 @@ export const Footer = () => {
   return ready ? (
     <Wrapper id="page-footer">
       <div>
-        Made with ❤️
+        Made with ❤️ by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>.
         <br />
-        by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>, for the sake of us all.
+        Stay home.
       </div>
       <div style={{ textAlign: 'right' }}>
         <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Data Source</a>

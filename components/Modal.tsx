@@ -12,12 +12,12 @@ const Wrapper = styled.div`
   position: absolute;
   top: 0px;
   right: 30px;
-  padding: 15px 30px;
+  padding: 25px 30px;
   margin: 30px 0px;
   width: 30%;
   height: calc(100% - 60px);
   /* height: auto; */
-  border-radius: 16px;
+  border-radius: 39px;
   background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   z-index: 1;

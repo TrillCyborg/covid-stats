@@ -5,6 +5,7 @@ import { GridRows, GridColumns, Grid } from '@vx/grid'
 import { curveMonotoneX } from '@vx/curve'
 import { scaleTime, scaleLinear } from '@vx/scale'
 import { localPoint } from '@vx/event'
+// import { RadialGradient } from '@vx/gradient';
 import { AxisLeft, AxisRight, AxisBottom } from '@vx/axis'
 import { extent, max } from 'd3-array'
 import { bisector } from 'd3-array'
@@ -93,6 +94,8 @@ export const AreaChart = (props: AreaChartProps) => {
     >
       {({ tooltip }) => (
         <svg width={width} height={height}>
+          {/* <RadialGradient from="var(--background)" to="var(--danger)" id="Radial" r={'350%'} />
+          <rect width={width} height={height} fill={"url(#Radial)"} rx={14} /> */}
           <rect x={0} y={0} width={width} height={height} fill="#060606" rx={14} />
           <defs>
             <linearGradient id={`gradient-${props.valueKey}`} x1="0%" y1="0%" x2="0%" y2="100%">

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react'
 import anime from 'animejs'
+import { scaleSqrt, scaleLinear, scaleQuantize } from '@vx/scale'
+import { Group } from '@vx/group'
+import { AlbersUsa } from '@vx/geo'
 import { useWindowSize } from 'react-use'
-import { scaleLinear, scaleSqrt, scaleQuantize } from '@vx/scale';
-import { AlbersUsa } from '@vx/geo';
 import * as topojson from 'topojson-client'
 import { Topology } from 'topojson-specification'
 import { MapFeature } from './MapFeature'
@@ -38,10 +39,14 @@ export const UnitedStates = (props: UnitedStatesProps) => {
   const [animationDone, setAnimationDone] = useState(false)
   const { background, danger, clear } = currentPallet
 
-  const color = useMemo(() => scaleSqrt({
-    domain: [0, props.data.mostInfected],
-    range: colorRange
-  }), [props.data.mostInfected]);
+  const color = useMemo(
+    () =>
+      scaleSqrt({
+        domain: [0, props.data.mostInfected],
+        range: colorRange,
+      }),
+    [props.data.mostInfected]
+  )
 
   useEffect(() => {
     setReady(true)
@@ -51,38 +56,47 @@ export const UnitedStates = (props: UnitedStatesProps) => {
   return ready ? (
     <svg id="map" width={width} height={height}>
       {/* <rect x={0} y={0} width={width} height={height} fill={background} rx={0} /> */}
-      <AlbersUsa data={map.features} scale={width} translate={[width / 2, height / 2]}>
+      <AlbersUsa
+        data={map.features}
+        scale={dimentions.width <= BREAKPOINTS[0] ? width * 1.2 : width}
+        translate={[width / 2, height / 2]}
+      >
         {mercator => {
           useEffect(() => {
             if (ready) {
-              anime.timeline({
-                targets: '.map-path',
-                easing: 'easeInOutQuad',
-                complete: () => setAnimationDone(true),
-              })
-              .add({
-                stroke: danger,
-                durration: 0,
-              })
-              .add({
-                strokeDashoffset: [anime.setDashoffset, 0],
-                delay: function(el, i) { return i * 15 },
-              }, 0)
-              .add({
-                stroke: background,
-                fill: (el, i) => {
-                  const data = props.data.states[el.id]
-                  return data ? color(data.dates[data.dates.length - 1].confirmed) : background
-                },
-                delay: function(el, i) { return i * 10 },
-              }, 600)
+              anime
+                .timeline({
+                  targets: '.map-path',
+                  easing: 'easeInOutQuad',
+                  complete: () => setAnimationDone(true),
+                })
+                .add({
+                  stroke: danger,
+                  durration: 0,
+                })
+                .add({
+                  strokeDashoffset: [anime.setDashoffset, 0],
+                  delay: function(el, i) {
+                    return i * 15
+                  },
+                }, 0)
+                .add({
+                  stroke: background,
+                  fill: (el, i) => {
+                    const data = props.data.states[el.id]
+                    return data ? color(data.dates[data.dates.length - 1].confirmed) : background
+                  },
+                  delay: function(el, i) {
+                    return i * 10
+                  },
+                }, 600)
               return () => {}
             }
             return () => {}
           }, [ready])
 
           return (
-            <g>
+            <Group top={0} left={dimentions.width <= BREAKPOINTS[0] ? width * 0.02 : 0}>
               {mercator.features.map(({ feature }: any, i) => (
                 <MapFeature
                   key={`map-feature-${i}`}
@@ -98,10 +112,10 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   }}
                 />
               ))}
-            </g>
-          );
+            </Group>
+          )
         }}
       </AlbersUsa>
     </svg>
-  ) : null;
-};
+  ) : null
+}

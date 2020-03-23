@@ -58,7 +58,7 @@ export const ChartTooltip = (props: ChartTooltipProps) => {
                   to={{ x: tooltip.tooltipLeft, y: yMax }}
                   stroke="#fff"
                   strokeWidth={2}
-                  style={{ pointerEvents: 'none' }}
+                  style={{ userSelect: 'none', pointerEvents: 'none' }}
                   strokeDasharray="2,2"
                 />
                 <circle
@@ -70,7 +70,7 @@ export const ChartTooltip = (props: ChartTooltipProps) => {
                   stroke="black"
                   strokeOpacity={0.1}
                   strokeWidth={2}
-                  style={{ pointerEvents: 'none' }}
+                  style={{ userSelect: 'none', pointerEvents: 'none' }}
                 />
                 <circle
                   cx={tooltip.tooltipLeft}
@@ -79,7 +79,7 @@ export const ChartTooltip = (props: ChartTooltipProps) => {
                   fill="rgba(92, 119, 235, 1.000)"
                   stroke="white"
                   strokeWidth={2}
-                  style={{ pointerEvents: 'none' }}
+                  style={{ userSelect: 'none', pointerEvents: 'none' }}
                 />
               </g>
             )}
@@ -92,6 +92,7 @@ export const ChartTooltip = (props: ChartTooltipProps) => {
             top={height / 2 + topOffset - 20}
             left={tooltip.tooltipLeft + 5}
             style={{
+              userSelect: 'none',
               backgroundColor: props.color,
               fontSize: 16,
               color: 'white',
@@ -103,6 +104,7 @@ export const ChartTooltip = (props: ChartTooltipProps) => {
             top={height + topOffset + 1}
             left={tooltip.tooltipLeft}
             style={{
+              userSelect: 'none',
               transform: 'translateX(-50%)',
             }}
           >

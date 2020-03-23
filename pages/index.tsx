@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga'
 import { useWindowSize } from 'react-use'
 import styled from '@emotion/styled'
 import { UnitedStates } from '../components/UnitedStates'
@@ -31,8 +31,8 @@ const Home = () => {
   const { width, height } = useWindowSize()
 
   useEffect(() => {
-    ReactGA.initialize('UA-161595327-1');
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.initialize('UA-161595327-1')
+    ReactGA.pageview(window.location.pathname + window.location.search)
     return () => {}
   }, [true])
 
@@ -85,11 +85,11 @@ const Home = () => {
           background-color: transparent;
           width: 12px;
         }
-      
+
         body::-webkit-scrollbar {
           width: 6px;
         }
-      
+
         body::-webkit-scrollbar-thumb {
           background-color: var(--accent);
           border-radius: 30px;
