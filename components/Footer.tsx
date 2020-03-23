@@ -9,8 +9,8 @@ const Wrapper = styled.p`
   color: var(--accent);
   margin: 0;
   font-size: 12px;
-  /* padding: 20px 30px; */
   padding: 30px;
+  z-index: 1;
 
   display: flex;
   align-items: flex-end;
@@ -38,7 +38,7 @@ export const Footer = () => {
   return ready ? (
     <Wrapper id="page-footer">
       <div>
-        Made with ❤️ by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>.
+        Made with ❤️ by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>
         <br />
         Stay home.
       </div>

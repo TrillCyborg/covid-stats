@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   width: calc(70% - 30px);
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     flex-direction: column;
