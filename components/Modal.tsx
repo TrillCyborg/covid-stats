@@ -8,14 +8,21 @@ import { ChartLabel } from './ChartLabel'
 import { ToggleChartButton, ChartMode } from './ToggleChartButton'
 import { BREAKPOINTS } from '../consts'
 
+const WrapperOuter = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+`
 const Wrapper = styled.div`
   position: absolute;
-  top: 30px;
-  /* right: 30px; */
   right: calc(-30% - 0px);
   padding: 15px 30px;
+  margin: 30px 0px;
   width: 30%;
-  height: calc(100% - 60px);
+  height: auto;
   border-radius: 16px;
   background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -26,9 +33,9 @@ const Wrapper = styled.div`
   @media (max-width: ${BREAKPOINTS[0]}px) {
     opacity: 0;
     overflow: hidden;
-    height: 100%;
     width: 100%;
-    position: relative;
+    margin: 0px;
+    position: absolute;
     top: 80vh;
     transform: translateX(-30%);
   }
@@ -96,105 +103,107 @@ export const Modal = (props: ModalProps) => {
   const state = props.data.states[props.currentState]
   const data = !!state ? state : props.data
   return (
-    <Wrapper id="info-modal">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
-          {!!state ? state.state : 'National'}
-        </h1>
-        <TogglaWrapper>
+    <WrapperOuter>
+      <Wrapper id="info-modal">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
+            {!!state ? state.state : 'National'}
+          </h1>
+          <TogglaWrapper>
+            <ToggleChartButton value={mode} onClick={setMode} />
+          </TogglaWrapper>
+        </div>
+        <MobileTogglaWrapper>
           <ToggleChartButton value={mode} onClick={setMode} />
-        </TogglaWrapper>
-      </div>
-      <MobileTogglaWrapper>
-        <ToggleChartButton value={mode} onClick={setMode} />
-        {!!state ? <BackButton onClick={props.clearState}>National</BackButton> : null}
-      </MobileTogglaWrapper>
-      {!!state ? (
-        <TogglaWrapper>
-          <BackButton style={{ marginTop: 6 }} onClick={props.clearState}>
-            National
-          </BackButton>
-        </TogglaWrapper>
-      ) : null}
-      {mode === 'total' ? (
-        <>
-          <ChartLabel amount={data.totalCases}>Total Confirmed</ChartLabel>
-          <AreaChart
-            width={width}
-            height={200}
-            data={data.dates}
-            valueKey="confirmed"
-            color="var(--accent)"
-          />
+          {!!state ? <BackButton onClick={props.clearState}>National</BackButton> : null}
+        </MobileTogglaWrapper>
+        {!!state ? (
+          <TogglaWrapper>
+            <BackButton style={{ marginTop: 6 }} onClick={props.clearState}>
+              National
+            </BackButton>
+          </TogglaWrapper>
+        ) : null}
+        {mode === 'total' ? (
+          <>
+            <ChartLabel amount={data.totalCases}>Total Confirmed</ChartLabel>
+            <AreaChart
+              width={width}
+              height={200}
+              data={data.dates}
+              valueKey="confirmed"
+              color="var(--accent)"
+            />
 
-          <ChartLabel amount={data.totalDeaths}>Total Deaths</ChartLabel>
-          <AreaChart
-            width={width}
-            height={200}
-            data={data.dates}
-            valueKey="deaths"
-            color="var(--danger)"
-          />
+            <ChartLabel amount={data.totalDeaths}>Total Deaths</ChartLabel>
+            <AreaChart
+              width={width}
+              height={200}
+              data={data.dates}
+              valueKey="deaths"
+              color="var(--danger)"
+            />
 
-          <ChartLabel amount={data.totalRecoveries}>Total Recoveries</ChartLabel>
-          <AreaChart
-            width={width}
-            height={200}
-            data={data.dates}
-            valueKey="recoveries"
-            color="var(--success)"
-          />
-        </>
-      ) : (
-        <>
-          <ChartLabel
-            amount={
-              data.dates[data.dates.length - 1].confirmed -
-              data.dates[data.dates.length - 2].confirmed
-            }
-          >
-            Daily Confirmed
-          </ChartLabel>
-          <BarChart
-            width={width}
-            height={200}
-            data={data.dates}
-            valueKey="confirmed"
-            color="var(--accent)"
-          />
+            <ChartLabel amount={data.totalRecoveries}>Total Recoveries</ChartLabel>
+            <AreaChart
+              width={width}
+              height={200}
+              data={data.dates}
+              valueKey="recoveries"
+              color="var(--success)"
+            />
+          </>
+        ) : (
+          <>
+            <ChartLabel
+              amount={
+                data.dates[data.dates.length - 1].confirmed -
+                data.dates[data.dates.length - 2].confirmed
+              }
+            >
+              Daily Confirmed
+            </ChartLabel>
+            <BarChart
+              width={width}
+              height={200}
+              data={data.dates}
+              valueKey="confirmed"
+              color="var(--accent)"
+            />
 
-          <ChartLabel
-            amount={
-              data.dates[data.dates.length - 1].deaths - data.dates[data.dates.length - 2].deaths
-            }
-          >
-            Daily Deaths
-          </ChartLabel>
-          <BarChart
-            width={width}
-            height={200}
-            data={data.dates}
-            valueKey="deaths"
-            color="var(--danger)"
-          />
+            <ChartLabel
+              amount={
+                data.dates[data.dates.length - 1].deaths - data.dates[data.dates.length - 2].deaths
+              }
+            >
+              Daily Deaths
+            </ChartLabel>
+            <BarChart
+              width={width}
+              height={200}
+              data={data.dates}
+              valueKey="deaths"
+              color="var(--danger)"
+            />
 
-          <ChartLabel
-            amount={
-              data.dates[data.dates.length - 1].recoveries -
-              data.dates[data.dates.length - 2].recoveries
-            }
-          >
-            Daily Recoveries
-          </ChartLabel>
-          <BarChart
-            width={width}
-            height={200}
-            data={data.dates}
-            valueKey="recoveries"
-            color="var(--success)"
-          />
-        </>
-      )}
-    </Wrapper>
+            <ChartLabel
+              amount={
+                data.dates[data.dates.length - 1].recoveries -
+                data.dates[data.dates.length - 2].recoveries
+              }
+            >
+              Daily Recoveries
+            </ChartLabel>
+            <BarChart
+              width={width}
+              height={200}
+              data={data.dates}
+              valueKey="recoveries"
+              color="var(--success)"
+            />
+          </>
+        )}
+      </Wrapper>
+    </WrapperOuter>
   )
 }
