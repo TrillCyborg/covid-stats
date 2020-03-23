@@ -3,7 +3,7 @@ import moment from 'moment'
 const confirmedCSV = require('../data/time-series/confirmed.csv')
 const deathsCSV = require('../data/time-series/deaths.csv')
 const recoveriesCSV = require('../data/time-series/recoveries.csv')
-const dailyCSV = require('../data/reports/03-21-2020.csv')
+const dailyCSV = require('../data/reports/03-22-2020.csv')
 
 const START_DATE = '02/24/2020'
 const FIELDS = [
