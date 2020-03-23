@@ -58,3 +58,24 @@ export const STATES = [
   // 'guam',
   // 'virgin-islands',
 ]
+export const DEFAULT_SEO = {
+  title: 'COVID-19',
+  description: 'Covid-19 statistics for United States.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://covidstats.app/',
+    site_name: 'COVID-19 Stats',
+    images: [
+      {
+        url: '/images/og-image.png',
+        alt: 'COVID-19',
+      },
+    ],
+  },
+  twitter: {
+    handle: '@trillcyborg',
+    site: '@trillcyborg',
+    cardType: 'summary_large_image',
+  }
+}

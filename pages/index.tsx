@@ -1,6 +1,7 @@
 import 'isomorphic-unfetch'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import { DefaultSeo } from 'next-seo'
 import ReactGA from 'react-ga'
 import { useWindowSize } from 'react-use'
 import { find } from 'lodash'
@@ -11,7 +12,7 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Modal } from '../components/Modal'
 import { nomalizeState, DataItem, Data } from '../lib/utils'
-import { BREAKPOINTS, START_DATE, STATES } from '../consts'
+import { BREAKPOINTS, START_DATE, STATES, DEFAULT_SEO } from '../consts'
 
 const MapWrapper = styled.div`
   width: 100%;
@@ -185,6 +186,7 @@ const Home = (props: { data: Data }) => {
 
         <link rel="manifest" href="/manifest.json" />
       </Head>
+      <DefaultSeo {...DEFAULT_SEO} />
       <div id="page-wrapper">
         <Header {...props.data.usa} />
         <MapWrapper>
