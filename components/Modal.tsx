@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { useWindowSize } from 'react-use'
 import { Data } from '../lib/data'
@@ -11,13 +11,12 @@ import { BREAKPOINTS } from '../consts'
 const Wrapper = styled.div`
   position: absolute;
   top: 0px;
-  right: calc(-30%);
+  right: 30px;
   padding: 15px 30px;
   margin: 30px 0px;
   width: 30%;
   height: calc(100% - 60px);
   /* height: auto; */
-  transform: translateX(-100%);
   border-radius: 16px;
   background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -25,7 +24,6 @@ const Wrapper = styled.div`
   overflow: auto;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    opacity: 0;
     overflow: hidden;
     width: 100%;
     height: auto;
@@ -93,13 +91,20 @@ interface ModalProps {
 }
 
 export const Modal = (props: ModalProps) => {
+  const [ready, setReady] = useState(false)
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
   const width =
     dimentions.width >= BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const state = props.data.states[props.currentState]
   const data = !!state ? state : props.data
-  return (
+
+  useEffect(() => {
+    setReady(true)
+    return () => {}
+  }, [true])
+
+  return ready ? (
     <Wrapper id="info-modal">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
@@ -200,5 +205,5 @@ export const Modal = (props: ModalProps) => {
         </>
       )}
     </Wrapper>
-  )
+  ) : null
 }

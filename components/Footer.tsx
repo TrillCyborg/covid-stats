@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { BREAKPOINTS } from '../consts'
 
@@ -15,8 +16,6 @@ const Wrapper = styled.p`
   align-items: flex-end;
   justify-content: space-between;
 
-  opacity: 0;
-
   a {
     color: var(--accent);
   }
@@ -27,17 +26,26 @@ const Wrapper = styled.p`
   }
 `
 
-export const Footer = () => (
-  <Wrapper id="page-footer">
-    <div>
-      Made with ❤️
-      <br />
-      by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>, for the sake of us all.
-    </div>
-    <div style={{ textAlign: 'right' }}>
-      <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Data Source</a>
-      <br />
-      Last update: 03/21/2020
-    </div>
-  </Wrapper>
-)
+export const Footer = () => {
+  const [ready, setReady] = useState(false)
+  
+  useEffect(() => {
+    setReady(true)
+    return () => {}
+  }, [true])
+
+  return ready ? (
+    <Wrapper id="page-footer">
+      <div>
+        Made with ❤️
+        <br />
+        by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>, for the sake of us all.
+      </div>
+      <div style={{ textAlign: 'right' }}>
+        <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Data Source</a>
+        <br />
+        Last update: 03/21/2020
+      </div>
+    </Wrapper>
+  ) : null
+}

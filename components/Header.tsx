@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import numeral from 'numeral'
 import { BREAKPOINTS } from '../consts'
@@ -11,8 +12,6 @@ const Wrapper = styled.div`
   width: calc(70% - 30px);
   justify-content: space-between;
   align-items: center;
-
-  opacity: 0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     flex-direction: column;
@@ -74,26 +73,35 @@ interface HeaderProps {
   totalRecoveries: number
 }
 
-export const Header = (props: HeaderProps) => (
-  <Wrapper id="page-header">
-    <Title>COVID-19</Title>
-    <StatList>
-      <StatWrapper>
-        <StatLabel>Infected:</StatLabel>
-        <StatNumber>{numeral(props.totalCases).format('0,0')}</StatNumber>
-      </StatWrapper>
-      <StatWrapper>
-        <StatLabel>Deaths:</StatLabel>
-        <StatNumber style={{ color: 'var(--danger)' }}>
-          {numeral(props.totalDeaths).format('0,0')}
-        </StatNumber>
-      </StatWrapper>
-      <StatWrapper>
-        <StatLabel>Recoveries:</StatLabel>
-        <StatNumber style={{ color: 'var(--success)' }}>
-          {numeral(props.totalRecoveries).format('0,0')}
-        </StatNumber>
-      </StatWrapper>
-    </StatList>
-  </Wrapper>
-)
+export const Header = (props: HeaderProps) => {
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    setReady(true)
+    return () => {}
+  }, [true])
+
+  return ready ? (
+    <Wrapper id="page-header">
+      <Title>COVID-19</Title>
+      <StatList>
+        <StatWrapper>
+          <StatLabel>Infected:</StatLabel>
+          <StatNumber>{numeral(props.totalCases).format('0,0')}</StatNumber>
+        </StatWrapper>
+        <StatWrapper>
+          <StatLabel>Deaths:</StatLabel>
+          <StatNumber style={{ color: 'var(--danger)' }}>
+            {numeral(props.totalDeaths).format('0,0')}
+          </StatNumber>
+        </StatWrapper>
+        <StatWrapper>
+          <StatLabel>Recoveries:</StatLabel>
+          <StatNumber style={{ color: 'var(--success)' }}>
+            {numeral(props.totalRecoveries).format('0,0')}
+          </StatNumber>
+        </StatWrapper>
+      </StatList>
+    </Wrapper>
+  ) : null
+}

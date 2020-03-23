@@ -55,7 +55,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
         {mercator => {
           useEffect(() => {
             if (ready) {
-              const tl = anime.timeline({
+              anime.timeline({
                 targets: '.map-path',
                 easing: 'easeInOutQuad',
                 complete: () => setAnimationDone(true),
@@ -76,60 +76,6 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                 },
                 delay: function(el, i) { return i * 10 },
               }, 600)
-              .add({
-                targets: '#page-header',
-                opacity: 1,
-                duration: 800,
-              }, 1800)
-              .add({
-                targets: '#page-footer',
-                opacity: 0.4,
-                duration: 800,
-              }, 1800)
-              // .add({
-              //   targets: '#page-header',
-              //   opacity: 1,
-              //   duration: 0,
-              // }, 0)
-              // .add({
-              //   targets: '#page-footer',
-              //   opacity: 0.4,
-              //   duration: 0,
-              // }, 0)
-              if (dimentions.width >= BREAKPOINTS[0]) {
-                tl
-                  .add({
-                    targets: '#map',
-                    translateX: "-20%",
-                    duration: 800,
-                  }, 1800)
-                  .add({
-                    targets: '#info-modal',
-                    translateX: 'calc(-100% - 30px)',
-                    duration: 800,
-                  }, 1800)
-                  // .add({
-                  //   targets: '#map',
-                  //   translateX: "-20%",
-                  //   duration: 0,
-                  // }, 0).add({
-                  //   targets: '#info-modal',
-                  //   translateX: 'calc(-100% - 30px)',
-                  //   duration: 0,
-                  // }, 0)
-              } else {
-                tl
-                  .add({
-                    targets: '#info-modal',
-                    opacity: 1,
-                    duration: 800,
-                  }, 1800)
-                  // }, 0).add({
-                  //   targets: '#info-modal',
-                  //   opacity: 1,
-                  //   duration: 0,
-                  // }, 0)
-              }
               return () => {}
             }
             return () => {}

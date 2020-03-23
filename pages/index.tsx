@@ -16,10 +16,13 @@ const MapWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  right: 15%;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     position: relative;
     bottom: 50px;
+    right: initial;
   }
 `
 
@@ -30,6 +33,7 @@ const Home = () => {
   useEffect(() => {
     ReactGA.initialize('UA-161595327-1');
     ReactGA.pageview(window.location.pathname + window.location.search);
+    return () => {}
   }, [true])
 
   return (
