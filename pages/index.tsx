@@ -233,7 +233,8 @@ const Home = (props: { data: Data }) => {
         }
 
         h1,
-        h2 {
+        h2,
+        h3 {
           font-family: Orbitron;
           margin: 0;
         }
