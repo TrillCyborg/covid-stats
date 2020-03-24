@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import numeral from 'numeral'
+import moment from 'moment-timezone'
 import { Line, Bar } from '@vx/shape'
 import { Tooltip } from '@vx/tooltip'
-import { timeFormat } from 'd3-time-format'
 
-const formatDate = timeFormat("%b %d, '%y")
+const formatDate = (date: Date) => moment(date).tz('Etc/GMT').format("MMM D, 'YY")
 
 interface ChartTooltipProps {
   width: number
