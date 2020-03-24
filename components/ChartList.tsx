@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { capitalize } from 'lodash'
 import { DateItem } from '../lib/utils'
 import { AreaChart } from './AreaChart'
@@ -41,9 +40,7 @@ export const ChartList = (props: ChartListProps) => {
         const hasData = props.data.some(data => !!data[chart.key])
         return hasData ? (
           <div key={chart.key}>
-            <ChartLabel
-              amount={amount(props.data, chart.key)}
-            >
+            <ChartLabel amount={amount(props.data, chart.key)}>
               {title} {capitalize(chart.key)}
             </ChartLabel>
             <div style={{ minHeight: props.height }}>

@@ -1,16 +1,14 @@
-import 'isomorphic-unfetch'
 import { useState, useEffect } from 'react'
 import { useWindowSize } from 'react-use'
-import { find } from 'lodash'
-import moment from 'moment'
 import styled from '@emotion/styled'
 import { UnitedStates } from '../components/UnitedStates'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Modal } from '../components/Modal'
 import { initialize, logPageView } from '../lib/analytics'
-import { nomalizeState, DataItem, Data } from '../lib/utils'
-import { BREAKPOINTS, START_DATE, STATES } from '../consts'
+import { Data } from '../lib/utils'
+import { getData } from '../lib/api'
+import { BREAKPOINTS } from '../consts'
 
 const MapWrapper = styled.div`
   width: 100%;
@@ -29,6 +27,7 @@ const MapWrapper = styled.div`
 `
 
 const Home = (props: { data: Data }) => {
+  const { data } = props
   const [currentState, setCurrentState] = useState<string>('')
   const { width, height } = useWindowSize()
 
@@ -38,13 +37,13 @@ const Home = (props: { data: Data }) => {
     return () => {}
   }, [true])
 
-  return (
+  return data ? (
     <div className="container">
       <div id="page-wrapper">
-        <Header {...props.data.usa} />
+        <Header {...data.usa} />
         <MapWrapper>
           <UnitedStates
-            data={props.data}
+            data={data}
             width={width > BREAKPOINTS[0] ? width * 0.8 : width}
             height={height * 0.8}
             currentState={currentState}
@@ -53,70 +52,14 @@ const Home = (props: { data: Data }) => {
         </MapWrapper>
         <Footer />
       </div>
-      <Modal currentState={currentState} clearState={() => setCurrentState('')} data={props.data} />
+      <Modal currentState={currentState} clearState={() => setCurrentState('')} data={data} />
     </div>
-  )
+  ) : null
 }
 
 Home.getInitialProps = async () => {
-  let mostInfected = 0
-  const states = {} as { [key: string]: DataItem }
-  const usaData = await fetch('https://corona.lmao.ninja/countries/USA').then(res => res.json())
-  const statesData = await fetch('https://corona.lmao.ninja/states').then(res => res.json())
-  const allHistorical = await fetch('https://corona.lmao.ninja/historical').then(res => res.json())
-  const usaHistorical = await fetch('https://corona.lmao.ninja/historical/usa').then(res =>
-    res.json()
-  )
-  const statesHistorical = allHistorical.filter(
-    ({ country, province }) => country === 'usa' && STATES.indexOf(nomalizeState(province)) !== -1
-  )
-  const allDates = Object.keys(usaHistorical.timeline.cases).map(date =>
-    moment(date, 'M/D/YY').valueOf()
-  )
-  const filteredDates = allDates.filter(d => d > moment(START_DATE, 'M/D/YY').valueOf())
-  statesData
-    .filter(({ state }) => STATES.indexOf(nomalizeState(state)) !== -1)
-    .forEach(state => {
-      const id = nomalizeState(state.state)
-      const history = find(statesHistorical, ({ province }) => nomalizeState(province) === id)
-
-      if (state.cases > mostInfected) {
-        mostInfected = state.cases
-      }
-
-      states[id] = {
-        ...state,
-        name: state.state,
-        timeline: filteredDates.map(d => {
-          const date = moment(d).format('M/D/YY')
-          return {
-            date: d,
-            confirmed: parseInt(history.timeline.cases[date], 10),
-            deaths: parseInt(history.timeline.deaths[date], 10),
-            recoveries: parseInt(history.timeline.recovered[date], 10),
-          }
-        }),
-      } as DataItem
-    })
-  return {
-    data: {
-      mostInfected,
-      usa: {
-        ...usaData,
-        name: usaData.country,
-        timeline: filteredDates.map(d => {
-          const date = moment(d).format('M/D/YY')
-          return {
-            date: d,
-            confirmed: parseInt(usaHistorical.timeline.cases[date], 10),
-            deaths: parseInt(usaHistorical.timeline.deaths[date], 10),
-            recoveries: parseInt(usaHistorical.timeline.recovered[date], 10),
-          }
-        }),
-      } as DataItem,
-      states,
-    } as Data,
-  }
+  const data = await getData()
+  return { data }
 }
 
 export default Home

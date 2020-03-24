@@ -3,6 +3,7 @@ import App from 'next/app'
 import Head from 'next/head'
 import { DefaultSeo } from 'next-seo'
 // import { SWRConfig } from 'swr'
+// import { fetcher } from '../lib/api'
 import { BREAKPOINTS, DEFAULT_SEO } from '../consts'
 
 interface MyAppProps extends App {}
@@ -158,9 +159,9 @@ class MyApp extends App<MyAppProps> {
       </Head>
 
       <DefaultSeo {...DEFAULT_SEO} />
-        {/* <SWRConfig value={{ fetcher }}> */}
-      <Component {...pageProps} />
-        {/* </SWRConfig> */}
+      {/* <SWRConfig value={{ fetcher }}> */}
+        <Component {...pageProps} />
+      {/* </SWRConfig> */}
 
         <style jsx global>{`
         html,

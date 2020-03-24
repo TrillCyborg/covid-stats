@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import moment from 'moment'
 import { useWindowSize } from 'react-use'
-import { logExitStateClick } from '../lib/analytics'
 import { Data } from '../lib/utils'
-import { ToggleChartButton, ChartMode } from './ToggleChartButton'
+import { ChartMode } from './ToggleChartButton'
+import { ModalHeader } from './ModalHeader'
 import { ChartList } from './ChartList'
 import { BREAKPOINTS } from '../consts'
 
@@ -60,29 +60,6 @@ const Wrapper = styled.div`
     border-radius: 30px;
   }
 `
-const TogglaWrapper = styled.div`
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    display: none;
-  }
-`
-const MobileTogglaWrapper = styled.div`
-  display: none;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    margin-top: 6px;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: space-between;
-  }
-`
-const BackButton = styled.div`
-  color: var(--accent);
-  text-decoration: underline;
-  font-family: Orbitron;
-  font-size: 14px;
-  cursor: pointer;
-`
 
 const LastUpdated = (props: { date: number }) => (
   <div style={{ fontSize: 12, color: 'var(--accent)', marginTop: 15, textAlign: 'center' }}>
@@ -120,31 +97,7 @@ export const Modal = (props: ModalProps) => {
 
   return ready ? (
     <Wrapper id="info-modal">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1 style={{ color: 'var(--accent)', textAlign: 'left' }}>
-          {!!state ? state.name : 'United States'}
-        </h1>
-        <TogglaWrapper>
-          <ToggleChartButton value={mode} onClick={setMode} />
-        </TogglaWrapper>
-      </div>
-      <MobileTogglaWrapper>
-        <ToggleChartButton value={mode} onClick={setMode} />
-        {!!state ? <BackButton onClick={props.clearState}>United States</BackButton> : null}
-      </MobileTogglaWrapper>
-      {!!state ? (
-        <TogglaWrapper>
-          <BackButton
-            style={{ marginTop: 6 }}
-            onClick={() => {
-              logExitStateClick()
-              props.clearState()
-            }}
-          >
-            United States
-          </BackButton>
-        </TogglaWrapper>
-      ) : null}
+      <ModalHeader state={state} mode={mode} setMode={setMode} clearState={props.clearState} />
       <ChartList data={data.timeline} width={width} height={height} mode={mode} />
       <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
     </Wrapper>
