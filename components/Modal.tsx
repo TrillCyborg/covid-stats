@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { useWindowSize } from 'react-use'
 import { Data } from '../lib/utils'
 import { ChartMode } from './ToggleChartButton'
@@ -63,7 +63,7 @@ const Wrapper = styled.div`
 
 const LastUpdated = (props: { date: number }) => (
   <div style={{ fontSize: 12, color: 'var(--accent)', marginTop: 15, textAlign: 'center' }}>
-    Last Updated: {moment(props.date).format('MM/DD/YYYY')}
+    Last Updated: {moment(props.date).tz('Etc/GMT').format('MM/DD/YYYY')}
   </div>
 )
 
@@ -89,6 +89,14 @@ export const Modal = (props: ModalProps) => {
       : dimentions.width > BREAKPOINTS[0]
       ? (dimentions.height - 400) / 3
       : 200
+  // const height =
+  //   dimentions.height < 670 && dimentions.width > BREAKPOINTS[0]
+  //     ? 100
+  //     : dimentions.width > BREAKPOINTS[1]
+  //     ? (dimentions.height - (!!state ? 323 : 300)) / 2
+  //     : dimentions.width > BREAKPOINTS[0]
+  //     ? (dimentions.height - (!!state ? 340 : 336)) / 2
+  //     : 300
 
   useEffect(() => {
     setReady(true)

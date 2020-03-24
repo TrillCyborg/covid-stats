@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { nomalizeState } from './utils'
 
 const confirmedCSV = require('../data/time-series/confirmed.csv')
@@ -113,7 +113,7 @@ export type Data = {
 const dates = confirmedCSV.default.split('\n')[0].split(',').slice(FIELDS.length)
 const dailyRows = dailyCSV.default.split('\n').slice(1)
 
-const filterDates = (items: DateItem[]) => items.filter(item => item.date > moment(START_DATE, 'MM/DD/YYYY').valueOf())
+const filterDates = (items: DateItem[]) => items.filter(item => item.date > moment(START_DATE, 'MM/DD/YYYY').tz('Etc/GMT').valueOf())
 
 const parseData = (data: string) => {
   const rows = data.split('\n').slice(1)
@@ -173,7 +173,7 @@ const getData = () => {
   STATES.map((state) => {
     const item = confirmed[state]
     item.dates = filterDates(dates.map((d: number, i: number) => {
-      const date = moment(d, 'MM/DD/YYYY').valueOf()
+      const date = moment(d, 'MM/DD/YYYY').tz('Etc/GMT').valueOf()
       const stateConfirmed = confirmed[state].dates[i]
       const stateDeaths = deaths[state].dates[i]
       const stateRecoveries = recoveries[state].dates[i]

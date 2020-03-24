@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { nomalizeState, DataItem, Data } from '../lib/utils'
 import { START_DATE, STATES } from '../consts'
 
@@ -18,9 +18,9 @@ export const getData = async () => {
     ({ country, province }) => country === 'usa' && STATES.indexOf(nomalizeState(province)) !== -1
   )
   const allDates = Object.keys(usaHistorical.timeline.cases).map(date =>
-    moment(date, 'M/D/YY').valueOf()
+    moment(date, 'M/D/YY').tz('Etc/GMT').valueOf()
   )
-  const filteredDates = allDates.filter(d => d > moment(START_DATE, 'M/D/YY').valueOf())
+  const filteredDates = allDates.filter(d => d > moment(START_DATE, 'M/D/YY').tz('Etc/GMT').valueOf())
   statesData
     .filter(({ state }) => STATES.indexOf(nomalizeState(state)) !== -1)
     .forEach(state => {
@@ -35,7 +35,7 @@ export const getData = async () => {
         ...state,
         name: state.state,
         timeline: filteredDates.map(d => {
-          const date = moment(d).format('M/D/YY')
+          const date = moment(d).tz('Etc/GMT').format('M/D/YY')
           return {
             date: d,
             confirmed: parseInt(history.timeline.cases[date], 10),
@@ -51,7 +51,7 @@ export const getData = async () => {
       ...usaData,
       name: usaData.country,
       timeline: filteredDates.map(d => {
-        const date = moment(d).format('M/D/YY')
+        const date = moment(d).tz('Etc/GMT').format('M/D/YY')
         return {
           date: d,
           confirmed: parseInt(usaHistorical.timeline.cases[date], 10),
