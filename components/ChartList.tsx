@@ -16,10 +16,13 @@ const CHART_TYPES = {
   total: {
     title: 'Total',
     Chart: AreaChart,
+    amount: (data: DateItem[], key: string) => data[data.length - 1][key],
   },
   daily: {
     title: 'Daily',
     Chart: BarChart,
+    amount: (data: DateItem[], key: string) =>
+      data[data.length - 1][key] - data[data.length - 2][key],
   },
 }
 
@@ -31,7 +34,7 @@ interface ChartListProps {
 }
 
 export const ChartList = (props: ChartListProps) => {
-  const { title, Chart } = CHART_TYPES[props.mode]
+  const { title, amount, Chart } = CHART_TYPES[props.mode]
   return (
     <div>
       {CHARTS.map(chart => {
@@ -39,10 +42,7 @@ export const ChartList = (props: ChartListProps) => {
         return hasData ? (
           <div key={chart.key}>
             <ChartLabel
-              amount={
-                props.data[props.data.length - 1][chart.key] -
-                props.data[props.data.length - 2][chart.key]
-              }
+              amount={amount(props.data, chart.key)}
             >
               {title} {capitalize(chart.key)}
             </ChartLabel>

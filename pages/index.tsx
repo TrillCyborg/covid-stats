@@ -29,7 +29,6 @@ const MapWrapper = styled.div`
 `
 
 const Home = (props: { data: Data }) => {
-  console.log('data', props.data)
   const [currentState, setCurrentState] = useState<string>('')
   const { width, height } = useWindowSize()
 
