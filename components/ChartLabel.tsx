@@ -1,6 +1,6 @@
 import numeral from 'numeral'
 
-export const ChartLabel = (props: { children: string; amount?: number }) => (
+export const ChartLabel = (props: { children: Array<string | JSX.Element>; amount?: number }) => (
   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
     <h3 style={{ color: 'var(--accent)', textAlign: 'left', marginBottom: 12, marginTop: 18 }}>
       {props.children}

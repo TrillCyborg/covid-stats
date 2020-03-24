@@ -19,7 +19,7 @@ interface BarChartProps {
   height: number
   color: string
   data: DateItem[]
-  valueKey: 'confirmed' | 'deaths' | 'recoveries'
+  valueKey: string
 }
 
 export const BarChart = (props: BarChartProps) => {
@@ -46,7 +46,7 @@ export const BarChart = (props: BarChartProps) => {
   }
 
   const numTicksForWidth = w => {
-    return data.length
+    return Math.floor(data.length / 10)
   }
 
   // bounds
@@ -129,7 +129,7 @@ export const BarChart = (props: BarChartProps) => {
               numTicksColumns={numTicksForWidth(width)}
             />
             <AxisLeft
-              left={34}
+              left={0}
               scale={yScale}
               hideZero
               numTicks={numTicksForHeight(height)}
@@ -138,7 +138,7 @@ export const BarChart = (props: BarChartProps) => {
                 fill: 'var(--accent)',
                 textAnchor: 'start',
                 fontSize: 10,
-                dx: '-2.15em',
+                dx: '1.5em',
                 dy: '1.25em',
               })}
             />

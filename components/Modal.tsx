@@ -3,11 +3,13 @@ import styled from '@emotion/styled'
 import moment from 'moment'
 import { useWindowSize } from 'react-use'
 import { logExitStateClick } from '../lib/analytics'
-import { Data } from '../lib/utils'
+import { Data, DateItem } from '../lib/utils'
 import { AreaChart } from './AreaChart'
 import { BarChart } from './BarChart'
 import { ChartLabel } from './ChartLabel'
 import { ToggleChartButton, ChartMode } from './ToggleChartButton'
+import { TotalCharts } from './TotalCharts'
+import { DailyCharts } from './DailyCharts'
 import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.div`
@@ -107,7 +109,9 @@ export const Modal = (props: ModalProps) => {
   const width =
     dimentions.width > BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const height =
-    dimentions.width > BREAKPOINTS[1]
+    dimentions.height < 670
+      ? 100
+      : dimentions.width > BREAKPOINTS[1]
       ? (dimentions.height - (!!state ? 387 : 364)) / 3
       : dimentions.width > BREAKPOINTS[0]
       ? (dimentions.height - 400) / 3
@@ -134,99 +138,21 @@ export const Modal = (props: ModalProps) => {
       </MobileTogglaWrapper>
       {!!state ? (
         <TogglaWrapper>
-          <BackButton style={{ marginTop: 6 }} onClick={() => {
-            logExitStateClick()
-            props.clearState()
-          }}>
+          <BackButton
+            style={{ marginTop: 6 }}
+            onClick={() => {
+              logExitStateClick()
+              props.clearState()
+            }}
+          >
             United States
           </BackButton>
         </TogglaWrapper>
       ) : null}
       {mode === 'total' ? (
-        <>
-          <ChartLabel amount={data.timeline[data.timeline.length - 1].confirmed}>
-            Total Confirmed
-          </ChartLabel>
-          <AreaChart
-            width={width}
-            height={height}
-            data={data.timeline}
-            valueKey="confirmed"
-            color="var(--accent)"
-          />
-
-          <ChartLabel amount={data.timeline[data.timeline.length - 1].deaths}>
-            Total Deaths
-          </ChartLabel>
-          <AreaChart
-            width={width}
-            height={height}
-            data={data.timeline}
-            valueKey="deaths"
-            color="var(--danger)"
-          />
-
-          <ChartLabel amount={data.timeline[data.timeline.length - 1].recoveries}>
-            Total Recoveries
-          </ChartLabel>
-          <AreaChart
-            width={width}
-            height={height}
-            data={data.timeline}
-            valueKey="recoveries"
-            color="var(--success)"
-          />
-        </>
+        <TotalCharts data={data.timeline} width={width} height={height} />
       ) : (
-        <>
-          <ChartLabel
-            amount={
-              data.timeline[data.timeline.length - 1].confirmed -
-              data.timeline[data.timeline.length - 2].confirmed
-            }
-          >
-            Daily Confirmed
-          </ChartLabel>
-          <BarChart
-            width={width}
-            height={height}
-            data={data.timeline}
-            valueKey="confirmed"
-            color="var(--accent)"
-          />
-
-          <ChartLabel
-            amount={
-              data.timeline[data.timeline.length - 1].deaths -
-              data.timeline[data.timeline.length - 2].deaths
-            }
-          >
-            Daily Deaths
-          </ChartLabel>
-          <BarChart
-            width={width}
-            height={height}
-            data={data.timeline}
-            valueKey="deaths"
-            color="var(--danger)"
-          />
-
-          <ChartLabel
-            amount={
-              data.timeline[data.timeline.length - 1].recoveries -
-              data.timeline[data.timeline.length - 2].recoveries
-            }
-          >
-            Daily Recoveries
-          </ChartLabel>
-          <BarChart
-            width={width}
-            height={height}
-            data={data.timeline}
-            valueKey="recoveries"
-            color="var(--success)"
-          />
-        </>
+        <DailyCharts data={data.timeline} width={width} height={height} />
       )}
       <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
     </Wrapper>

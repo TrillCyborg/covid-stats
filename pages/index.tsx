@@ -1,7 +1,6 @@
 import 'isomorphic-unfetch'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import ReactGA from 'react-ga'
 import { DefaultSeo } from 'next-seo'
 import { useWindowSize } from 'react-use'
 import { find } from 'lodash'

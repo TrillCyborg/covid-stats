@@ -16,12 +16,30 @@ import { DateItem } from '../lib/utils'
 const xVal = d => d.date
 const yVal = d => d.value
 
+const formatData = (data: DateItem[], key: string) => {
+  let lastValue = 0
+  return data.map(d => {
+    let value = 0
+    const currentValue = d[key]
+    if (currentValue) {
+      lastValue = currentValue
+      value = currentValue
+    } else if (lastValue) {
+      value = lastValue
+    }
+    return {
+      date: new Date(d.date),
+      value: value,
+    }
+  })
+}
+
 interface AreaChartProps {
   width: number
   height: number
   color: string
   data: DateItem[]
-  valueKey: 'confirmed' | 'deaths' | 'recoveries'
+  valueKey: string
 }
 
 export const AreaChart = (props: AreaChartProps) => {
@@ -33,10 +51,7 @@ export const AreaChart = (props: AreaChartProps) => {
     return () => {}
   }, [true])
 
-  const data = props.data.map(d => ({
-    date: new Date(d.date),
-    value: d[props.valueKey],
-  }))
+  const data = formatData(props.data, props.valueKey)
 
   // bounds
   const xMax = width * 0.95
@@ -49,7 +64,7 @@ export const AreaChart = (props: AreaChartProps) => {
   }
 
   const numTicksForWidth = w => {
-    return data.length
+    return Math.floor(data.length / 10)
   }
 
   // scales
@@ -138,7 +153,7 @@ export const AreaChart = (props: AreaChartProps) => {
               numTicksColumns={numTicksForWidth(width)}
             />
             <AxisLeft
-              left={34}
+              left={0}
               scale={yScale}
               hideZero
               numTicks={numTicksForHeight(height)}
@@ -147,7 +162,7 @@ export const AreaChart = (props: AreaChartProps) => {
                 fill: 'var(--accent)',
                 textAnchor: 'start',
                 fontSize: 10,
-                dx: '-2.15em',
+                dx: '1.5em',
                 dy: '1.25em',
               })}
               // top={margin.top}

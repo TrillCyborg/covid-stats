@@ -10,7 +10,7 @@ export type DataItem = {
   active: number
   critical?: number
   casesPerOneMillion?: number
-  timeline: any
+  timeline: DateItem[]
 }
 
 export type DateItem = { date: number; confirmed: number; deaths: number; recoveries: number }

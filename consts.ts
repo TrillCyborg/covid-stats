@@ -1,4 +1,4 @@
-export const BREAKPOINTS = [970, 1380]
+export const BREAKPOINTS = [970, 1580]
 export const START_DATE = '2/24/20'
 export const STATES = [
   'washington',
