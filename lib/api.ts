@@ -3,15 +3,15 @@ import moment from 'moment-timezone'
 import { nomalizeState, DataItem, Data } from '../lib/utils'
 import { START_DATE, STATES } from '../consts'
 
-const apiEndpoint = 'https://corona.lmao.ninja'
+const apiEndpoint = 'https://api.covidstats.app'
 
 export const getData = async () => {
   let mostInfected = 0
   const states = {} as { [key: string]: DataItem }
-  const usaData = await fetch('https://corona.lmao.ninja/countries/USA').then(res => res.json())
-  const statesData = await fetch('https://corona.lmao.ninja/states').then(res => res.json())
-  const allHistorical = await fetch('https://corona.lmao.ninja/historical').then(res => res.json())
-  const usaHistorical = await fetch('https://corona.lmao.ninja/historical/usa').then(res =>
+  const usaData = await fetch(`${apiEndpoint}/countries/USA`).then(res => res.json())
+  const statesData = await fetch(`${apiEndpoint}/states`).then(res => res.json())
+  const allHistorical = await fetch(`${apiEndpoint}/historical`).then(res => res.json())
+  const usaHistorical = await fetch(`${apiEndpoint}/historical/usa`).then(res =>
     res.json()
   )
   const statesHistorical = allHistorical.filter(
