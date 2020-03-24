@@ -109,7 +109,7 @@ export const Modal = (props: ModalProps) => {
   const width =
     dimentions.width > BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const height =
-    dimentions.height < 670
+    dimentions.height < 670 && dimentions.width > BREAKPOINTS[0]
       ? 100
       : dimentions.width > BREAKPOINTS[1]
       ? (dimentions.height - (!!state ? 387 : 364)) / 3

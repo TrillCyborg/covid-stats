@@ -22,13 +22,15 @@ export const TotalCharts = (props: TotalChartsProps) => (
           <ChartLabel amount={props.data[props.data.length - 1][chart.key]}>
             Total {capitalize(chart.key)}
           </ChartLabel>
-          <AreaChart
-            width={props.width}
-            height={props.height}
-            data={props.data}
-            valueKey={chart.key}
-            color={chart.color}
-          />
+          <div style={{ minHeight: props.height }}>
+            <AreaChart
+              width={props.width}
+              height={props.height}
+              data={props.data}
+              valueKey={chart.key}
+              color={chart.color}
+            />
+          </div>
         </div>
       ) : null
     })}

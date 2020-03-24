@@ -27,13 +27,15 @@ export const DailyCharts = (props: DailyChartsProps) => (
             >
               Daily {capitalize(chart.key)}
             </ChartLabel>
-            <BarChart
-              width={props.width}
-              height={props.height}
-              data={props.data}
-              valueKey={chart.key}
-              color={chart.color}
-            />
+            <div style={{ minHeight: props.height }}>
+              <BarChart
+                width={props.width}
+                height={props.height}
+                data={props.data}
+                valueKey={chart.key}
+                color={chart.color}
+              />
+            </div>
         </div>
       ) : null
     })}
