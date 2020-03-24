@@ -11,7 +11,7 @@ export const getData = async () => {
   const usaData = await fetch(`${apiEndpoint}/countries/USA`).then(res => res.json())
   const statesData = await fetch(`${apiEndpoint}/states`).then(res => res.json())
   const allHistorical = await fetch(`${apiEndpoint}/historical`).then(res => res.json())
-  const usaHistorical = await fetch(`${apiEndpoint}/historical/usa`).then(res =>
+  const usaHistorical = await fetch(`${apiEndpoint}/v2/historical/usa`).then(res =>
     res.json()
   )
   const statesHistorical = allHistorical.filter(
@@ -56,7 +56,7 @@ export const getData = async () => {
           date: d,
           confirmed: parseInt(usaHistorical.timeline.cases[date], 10),
           deaths: parseInt(usaHistorical.timeline.deaths[date], 10),
-          recoveries: parseInt(usaHistorical.timeline.recovered[date], 10),
+          // recoveries: parseInt(usaHistorical.timeline.recovered[date], 10),
         }
       }),
     } as DataItem,
