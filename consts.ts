@@ -68,7 +68,7 @@ export const DEFAULT_SEO = {
     site_name: 'COVID-19 Stats',
     images: [
       {
-        url: '/images/og-image.png',
+        url: 'https://covidstats.app/images/og-image.png',
         alt: 'COVID-19',
       },
     ],
