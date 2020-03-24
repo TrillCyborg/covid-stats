@@ -56,7 +56,7 @@ const StatNumber = styled.span`
   font-family: Orbitron;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 18px;
+    font-size: 20px;
   }
 `
 const StatList = styled.div`
@@ -67,6 +67,11 @@ const StatList = styled.div`
     width: 100%;
     justify-content: space-between;
   }
+`
+const TodayAddition = styled.div`
+  text-align: right;
+  font-size: 9px;
+  margin-right: 2px;
 `
 
 export const Header = (props: DataItem) => {
@@ -84,18 +89,33 @@ export const Header = (props: DataItem) => {
         <StatWrapper>
           <StatLabel>Infected:</StatLabel>
           <StatNumber>{numeral(props.cases).format('0,0')}</StatNumber>
+          {props.todayCases ? (
+            <TodayAddition>
+              + {numeral(props.todayCases).format('0,0')} today
+            </TodayAddition>
+          ) : null}
         </StatWrapper>
         <StatWrapper>
           <StatLabel>Deaths:</StatLabel>
           <StatNumber style={{ color: 'var(--danger)' }}>
             {numeral(props.deaths).format('0,0')}
           </StatNumber>
+          {props.todayDeaths ? (
+            <TodayAddition style={{ color: 'var(--danger)' }}>
+              + {numeral(props.todayDeaths).format('0,0')} today
+            </TodayAddition>
+          ) : null}
         </StatWrapper>
         <StatWrapper>
           <StatLabel>Recoveries:</StatLabel>
           <StatNumber style={{ color: 'var(--success)' }}>
             {numeral(props.recovered).format('0,0')}
           </StatNumber>
+          {props.todayRecovered ? (
+            <TodayAddition style={{ color: 'var(--success)' }}>
+              + {numeral(props.todayRecovered).format('0,0')} today
+            </TodayAddition>
+          ) : null}
         </StatWrapper>
       </StatList>
     </Wrapper>

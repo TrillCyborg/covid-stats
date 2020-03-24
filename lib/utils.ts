@@ -3,10 +3,11 @@ export const nomalizeState = (state: string) => state.toLowerCase().replace(/\s/
 export type DataItem = {
   name: string
   cases: number
-  todayCases: number
+  todayCases?: number
   deaths: number
-  todayDeaths: number
+  todayDeaths?: number
   recovered: number
+  todayRecovered?: number
   active: number
   critical?: number
   casesPerOneMillion?: number
