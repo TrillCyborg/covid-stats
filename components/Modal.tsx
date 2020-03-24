@@ -3,13 +3,9 @@ import styled from '@emotion/styled'
 import moment from 'moment'
 import { useWindowSize } from 'react-use'
 import { logExitStateClick } from '../lib/analytics'
-import { Data, DateItem } from '../lib/utils'
-import { AreaChart } from './AreaChart'
-import { BarChart } from './BarChart'
-import { ChartLabel } from './ChartLabel'
+import { Data } from '../lib/utils'
 import { ToggleChartButton, ChartMode } from './ToggleChartButton'
-import { TotalCharts } from './TotalCharts'
-import { DailyCharts } from './DailyCharts'
+import { ChartList } from './ChartList'
 import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.div`
@@ -149,11 +145,7 @@ export const Modal = (props: ModalProps) => {
           </BackButton>
         </TogglaWrapper>
       ) : null}
-      {mode === 'total' ? (
-        <TotalCharts data={data.timeline} width={width} height={height} />
-      ) : (
-        <DailyCharts data={data.timeline} width={width} height={height} />
-      )}
+      <ChartList data={data.timeline} width={width} height={height} mode={mode} />
       <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
     </Wrapper>
   ) : null
