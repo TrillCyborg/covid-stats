@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-// import { TrendingUp, BarChart2 } from 'react-feather'
+import { logTotalTabClick, logDailyTabClick } from '../lib/analytics'
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +34,10 @@ export const ToggleChartButton = (props: ToggleChartButtonProps) => {
     <Wrapper>
       <Button
         active={value === 'total'}
-        onClick={() => onClick('total')}
+        onClick={() => {
+          logTotalTabClick()
+          onClick('total')
+        }}
         style={{ marginRight: 5 }}
       >
         TOTAL
@@ -42,16 +45,14 @@ export const ToggleChartButton = (props: ToggleChartButtonProps) => {
       <Divider />
       <Button
         active={value === 'daily'}
-        onClick={() => onClick('daily')}
+        onClick={() => {
+          logDailyTabClick()
+          onClick('daily')
+        }}
         style={{ marginLeft: 5 }}
       >
         DAILY
       </Button>
-      {/* {value === 'area' ? (
-        <TrendingUp color="var(--accent)" />
-      ) : (
-        <BarChart2 color="var(--accent)" />
-      )} */}
     </Wrapper>
   )
 }

@@ -1,8 +1,8 @@
 import 'isomorphic-unfetch'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { DefaultSeo } from 'next-seo'
 import ReactGA from 'react-ga'
+import { DefaultSeo } from 'next-seo'
 import { useWindowSize } from 'react-use'
 import { find } from 'lodash'
 import moment from 'moment'
@@ -11,6 +11,7 @@ import { UnitedStates } from '../components/UnitedStates'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Modal } from '../components/Modal'
+import { initialize, logPageView } from '../lib/analytics'
 import { nomalizeState, DataItem, Data } from '../lib/utils'
 import { BREAKPOINTS, START_DATE, STATES, DEFAULT_SEO } from '../consts'
 
@@ -35,8 +36,8 @@ const Home = (props: { data: Data }) => {
   const { width, height } = useWindowSize()
 
   useEffect(() => {
-    ReactGA.initialize('UA-161595327-1')
-    ReactGA.pageview(window.location.pathname + window.location.search)
+    initialize()
+    logPageView()
     return () => {}
   }, [true])
 

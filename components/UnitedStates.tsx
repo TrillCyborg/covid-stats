@@ -9,6 +9,7 @@ import { Topology } from 'topojson-specification'
 import { MapFeature } from './MapFeature'
 import topology from '../data/us.json'
 import { Data } from '../lib/utils'
+import { logStateClick } from '../lib/analytics'
 import { nomalizeState } from '../lib/utils'
 import { BREAKPOINTS } from '../consts'
 
@@ -108,7 +109,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   animationDone={animationDone}
                   currentState={props.currentState}
                   onClick={event => {
-                    // alert(`clicked: ${feature.properties.name} (${feature.id})`);
+                    logStateClick(feature.properties.name)
                     props.setCurrentState(nomalizeState(feature.properties.name))
                   }}
                 />

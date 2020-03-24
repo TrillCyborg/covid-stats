@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import { OutboundLink } from '../lib/analytics'
 import { BREAKPOINTS } from '../consts'
 
 const Wrapper = styled.p`
@@ -29,7 +30,7 @@ const Wrapper = styled.p`
 
 export const Footer = () => {
   const [ready, setReady] = useState(false)
-  
+
   useEffect(() => {
     setReady(true)
     return () => {}
@@ -38,12 +39,17 @@ export const Footer = () => {
   return ready ? (
     <Wrapper id="page-footer">
       <div>
-        Made with ❤️ by <a href="https://twitter.com/trillcyborg" target="_blank">@trillcyborg</a>
+        Made with ❤️ by{' '}
+        <OutboundLink eventLabel="twitter" to="https://twitter.com/trillcyborg" target="_blank">
+          @trillcyborg
+        </OutboundLink>
         <br />
         Stay home.
       </div>
       <div style={{ textAlign: 'right' }}>
-        <a href="https://github.com/NovelCOVID/API" target="_blank">Data Source</a>
+        <OutboundLink eventLabel="source" to="https://github.com/NovelCOVID/API" target="_blank">
+          Data Source
+        </OutboundLink>
       </div>
     </Wrapper>
   ) : null

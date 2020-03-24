@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import moment from 'moment'
 import { useWindowSize } from 'react-use'
+import { logExitStateClick } from '../lib/analytics'
 import { Data } from '../lib/utils'
 import { AreaChart } from './AreaChart'
 import { BarChart } from './BarChart'
@@ -133,7 +134,10 @@ export const Modal = (props: ModalProps) => {
       </MobileTogglaWrapper>
       {!!state ? (
         <TogglaWrapper>
-          <BackButton style={{ marginTop: 6 }} onClick={props.clearState}>
+          <BackButton style={{ marginTop: 6 }} onClick={() => {
+            logExitStateClick()
+            props.clearState()
+          }}>
             United States
           </BackButton>
         </TogglaWrapper>
