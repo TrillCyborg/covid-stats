@@ -12,6 +12,7 @@ const Wrapper = styled.p`
   font-size: 12px;
   padding: 30px;
   z-index: 1;
+  animation: var(--fade-in);
 
   display: flex;
   align-items: flex-end;

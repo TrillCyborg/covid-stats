@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   z-index: 1;
+  animation: var(--fade-in);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     flex-direction: column;
@@ -26,8 +27,10 @@ const Title = styled.h1`
   font-size: 30px;
   font-weight: bold;
   letter-spacing: 6px;
+  line-height: 57px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 100%;
     font-size: 26px;
   }
 `
@@ -62,6 +65,7 @@ const StatNumber = styled.span`
 const StatList = styled.div`
   display: flex;
   color: var(--accent);
+  animation: var(--fade-in);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;
@@ -86,39 +90,41 @@ export const Header = (props: DataItem) => {
   return ready ? (
     <Wrapper id="page-header">
       <Title>COVID-19</Title>
-      <StatList>
-        <StatWrapper>
-          <StatLabel>Infected:</StatLabel>
-          <StatNumber>{numeral(props.cases).format('0,0')}</StatNumber>
-          {props.todayCases ? (
-            <TodayAddition>
-              + {numeral(props.todayCases).format('0,0')} today
-            </TodayAddition>
-          ) : null}
-        </StatWrapper>
-        <StatWrapper>
-          <StatLabel>Deaths:</StatLabel>
-          <StatNumber style={{ color: 'var(--danger)' }}>
-            {numeral(props.deaths).format('0,0')}
-          </StatNumber>
-          {props.todayDeaths ? (
-            <TodayAddition style={{ color: 'var(--danger)' }}>
-              + {numeral(props.todayDeaths).format('0,0')} today
-            </TodayAddition>
-          ) : null}
-        </StatWrapper>
-        <StatWrapper>
-          <StatLabel>Recoveries:</StatLabel>
-          <StatNumber style={{ color: 'var(--success)' }}>
-            {numeral(props.recovered).format('0,0')}
-          </StatNumber>
-          {props.todayRecovered ? (
-            <TodayAddition style={{ color: 'var(--success)' }}>
-              + {numeral(props.todayRecovered).format('0,0')} today
-            </TodayAddition>
-          ) : null}
-        </StatWrapper>
-      </StatList>
+      {props.cases ? (
+        <StatList>
+          <StatWrapper>
+            <StatLabel>Infected:</StatLabel>
+            <StatNumber>{numeral(props.cases).format('0,0')}</StatNumber>
+            {props.todayCases ? (
+              <TodayAddition>
+                + {numeral(props.todayCases).format('0,0')} today
+              </TodayAddition>
+            ) : null}
+          </StatWrapper>
+          <StatWrapper>
+            <StatLabel>Deaths:</StatLabel>
+            <StatNumber style={{ color: 'var(--danger)' }}>
+              {numeral(props.deaths).format('0,0')}
+            </StatNumber>
+            {props.todayDeaths ? (
+              <TodayAddition style={{ color: 'var(--danger)' }}>
+                + {numeral(props.todayDeaths).format('0,0')} today
+              </TodayAddition>
+            ) : null}
+          </StatWrapper>
+          <StatWrapper>
+            <StatLabel>Recoveries:</StatLabel>
+            <StatNumber style={{ color: 'var(--success)' }}>
+              {numeral(props.recovered).format('0,0')}
+            </StatNumber>
+            {props.todayRecovered ? (
+              <TodayAddition style={{ color: 'var(--success)' }}>
+                + {numeral(props.todayRecovered).format('0,0')} today
+              </TodayAddition>
+            ) : null}
+          </StatWrapper>
+        </StatList>
+      ) : null}
     </Wrapper>
   ) : null
 }

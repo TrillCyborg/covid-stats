@@ -22,6 +22,7 @@ const Wrapper = styled.div`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   z-index: 1;
   overflow: auto;
+  animation: var(--fade-in);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     overflow: hidden;
@@ -63,12 +64,15 @@ const Wrapper = styled.div`
 
 const LastUpdated = (props: { date: number }) => (
   <div style={{ fontSize: 12, color: 'var(--accent)', marginTop: 15, textAlign: 'center' }}>
-    Last Updated: {moment(props.date).tz('Etc/GMT').format('MM/DD/YYYY')}
+    Last Updated:{' '}
+    {moment(props.date)
+      .tz('Etc/GMT')
+      .format('MM/DD/YYYY')}
   </div>
 )
 
 interface ModalProps {
-  data: Data
+  data: Partial<Data>
   currentState: string
   clearState: () => void
 }
@@ -77,8 +81,12 @@ export const Modal = (props: ModalProps) => {
   const [ready, setReady] = useState(false)
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
-  const state = props.data.states[props.currentState]
-  const data = !!state ? state : props.data.usa
+  const state = props.data && props.data.states ? props.data.states[props.currentState] : undefined
+  const data = !!state
+    ? state
+    : props.data && props.data.usa && props.data.usa.timeline
+    ? props.data.usa
+    : undefined
   const width =
     dimentions.width > BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
   const height =
@@ -99,9 +107,9 @@ export const Modal = (props: ModalProps) => {
   //     : 300
 
   useEffect(() => {
-    setReady(true)
+    if (data && !ready) setReady(true)
     return () => {}
-  }, [true])
+  }, [data, ready])
 
   return ready ? (
     <Wrapper id="info-modal">

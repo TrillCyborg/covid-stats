@@ -29,7 +29,7 @@ const map = topojson.feature(
 interface UnitedStatesProps {
   width: number
   height: number
-  data: Data
+  data: Partial<Data>
   currentState: string
   setCurrentState: (state: string) => void
 }
@@ -44,19 +44,19 @@ export const UnitedStates = (props: UnitedStatesProps) => {
   const color = useMemo(
     () =>
       scaleSqrt({
-        domain: [0, props.data.mostInfected],
+        domain: [0, props.data && props.data.mostInfected ? props.data.mostInfected : 0],
         range: colorRange,
       }),
-    [props.data.mostInfected]
+    [props.data]
   )
 
   useEffect(() => {
-    setReady(true)
+    if (props.data && props.data.states && !ready) setReady(true)
     return () => {}
-  }, [true])
+  }, [props.data])
 
   return ready ? (
-    <svg id="map" width={width} height={height}>
+    <svg id="map" width={width} height={height} style={{ animation: 'var(--fade-in)' }}>
       {/* <rect x={0} y={0} width={width} height={height} fill={background} rx={0} /> */}
       <AlbersUsa
         data={map.features}
