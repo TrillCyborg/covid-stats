@@ -28,9 +28,10 @@ export const BarChart = (props: BarChartProps) => {
 
   const data = props.data.map((d, i) => {
     const prevD = props.data[i - 1]
+    const value = !!prevD ? d[props.valueKey] - prevD[props.valueKey] : d[props.valueKey]
     return {
       date: new Date(d.date),
-      value: !!prevD ? d[props.valueKey] - prevD[props.valueKey] : d[props.valueKey],
+      value: value < 0 ? 0 : value
     }
   })
 
