@@ -1,4 +1,7 @@
+import { capitalize } from 'lodash'
+
 export const nomalizeState = (state: string) => state.toLowerCase().replace(/\s/g, '-')
+export const denormalizeState = (state: string) => capitalize(state.replace(/-/g, ' '))
 
 export type DataItem = {
   name: string
@@ -6,9 +9,9 @@ export type DataItem = {
   todayCases?: number
   deaths: number
   todayDeaths?: number
-  recovered: number
+  recovered?: number
   todayRecovered?: number
-  active: number
+  active?: number
   critical?: number
   casesPerOneMillion?: number
   timeline: DateItem[]
