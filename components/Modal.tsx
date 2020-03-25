@@ -81,11 +81,14 @@ export const Modal = (props: ModalProps) => {
   const [ready, setReady] = useState(false)
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
-  const state = props.data && props.data.states ? props.data.states[props.currentState] : undefined
+  const state =
+    props.data && props.data.items && props.data.items.usa && props.data.items.usa.states
+      ? props.data.items.usa.states[props.currentState]
+      : undefined
   const data = !!state
     ? state
-    : props.data && props.data.usa && props.data.usa.timeline
-    ? props.data.usa
+    : props.data && props.data.items && props.data.items.usa && props.data.items.usa.timeline
+    ? props.data.items.usa
     : undefined
   const width =
     dimentions.width > BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60

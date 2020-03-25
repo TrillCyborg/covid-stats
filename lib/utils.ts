@@ -1,7 +1,7 @@
 import { capitalize } from 'lodash'
 
-export const nomalizeState = (state: string) => state.toLowerCase().replace(/\s/g, '-')
-export const denormalizeState = (state: string) => capitalize(state.replace(/-/g, ' '))
+export const nomalizeLocation = (state: string) => state.toLowerCase().replace(/\s/g, '-')
+export const denormalizeLocation = (state: string) => capitalize(state.replace(/-/g, ' '))
 
 export type DataItem = {
   name: string
@@ -14,13 +14,23 @@ export type DataItem = {
   active?: number
   critical?: number
   casesPerOneMillion?: number
+  mostInfected?: number
   timeline: DateItem[]
+  states?: {
+    [key: string]: DataItem
+  }
 }
 
 export type DateItem = { date: number; confirmed: number; deaths: number; recoveries: number }
 
 export type Data = {
+  worldDataLoaded?: boolean
+  usDataLoaded?: boolean
+  usChartDataLoaded?: boolean
+  statesDataLoaded?: boolean
   mostInfected: number
-  usa: DataItem
-  states: { [key: string]: DataItem }
+  global: DataItem
+  items: {
+    [key: string]: DataItem
+  }
 }
