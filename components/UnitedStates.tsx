@@ -86,7 +86,7 @@ export const UnitedStates = (props: UnitedStatesProps) => {
                   stroke: background,
                   fill: (el, i) => {
                     const data = props.data.states[el.id]
-                    return data ? color(data.timeline[data.timeline.length - 1].confirmed) : background
+                    return data ? color(data.cases) : background
                   },
                   delay: function(el, i) {
                     return i * 10
