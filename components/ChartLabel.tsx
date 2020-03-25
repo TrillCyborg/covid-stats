@@ -4,9 +4,9 @@ export const ChartLabel = (props: { children: Array<string | JSX.Element>; amoun
   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
     <h3 style={{ color: 'var(--accent)', textAlign: 'left', marginBottom: 12, marginTop: 18 }}>
       {props.children}
-      {props.amount ? ':' : ''}
+      {props.amount && props.amount > 0 ? ':' : ''}
     </h3>
-    {props.amount ? (
+    {props.amount && props.amount > 0 ? (
       <h3 style={{ color: 'var(--accent)', textAlign: 'left', marginBottom: 12, marginTop: 18 }}>
         {numeral(props.amount).format('0,0')}
       </h3>
