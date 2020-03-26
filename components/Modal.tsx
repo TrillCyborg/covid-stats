@@ -75,17 +75,26 @@ interface ModalProps {
   data: Partial<Data>
   currentState: string
   clearState: () => void
+  currentCountry: string
+  clearCountry: () => void
 }
 
 export const Modal = (props: ModalProps) => {
   const [ready, setReady] = useState(false)
   const [mode, setMode] = useState<ChartMode>('total')
   const dimentions = useWindowSize()
-  const state = props.data && props.data.states ? props.data.states[props.currentState] : undefined
-  const data = !!state
-    ? state
-    : props.data && props.data.usa && props.data.usa.timeline
-    ? props.data.usa
+  const country =
+    props.currentCountry && props.data && props.data.items
+      ? props.data.items[props.currentCountry]
+      : undefined
+  const state =
+    props.currentState && country && country.states ? country.states[props.currentState] : undefined
+  const data = !!country
+    ? !!state
+      ? state
+      : country
+    : props.data && props.data.global
+    ? props.data.global
     : undefined
   const width =
     dimentions.width > BREAKPOINTS[0] ? dimentions.width * 0.3 - 60 : dimentions.width - 60
@@ -107,15 +116,27 @@ export const Modal = (props: ModalProps) => {
   //     : 300
 
   useEffect(() => {
-    if (data && !ready) setReady(true)
+    if (data && data.timeline && !ready) setReady(true)
     return () => {}
   }, [data, ready])
 
   return ready ? (
     <Wrapper id="info-modal">
-      <ModalHeader state={state} mode={mode} setMode={setMode} clearState={props.clearState} />
-      <ChartList data={data.timeline} width={width} height={height} mode={mode} />
-      <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
+      <ModalHeader
+        data={data}
+        isCountry={!!country}
+        isState={!!state}
+        countryName={!!country ? country.name : undefined}
+        mode={mode}
+        setMode={setMode}
+        clear={!!state ? props.clearState : props.clearCountry}
+      />
+      {data.timeline ? (
+        <>
+          <ChartList data={data.timeline} width={width} height={height} mode={mode} />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
+        </>
+      ) : null}
     </Wrapper>
   ) : null
 }

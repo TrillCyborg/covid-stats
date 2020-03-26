@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   width: calc(70% - 30px);
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1;
   animation: var(--fade-in);
 
@@ -59,17 +59,17 @@ const StatNumber = styled.span`
   font-family: Orbitron;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 20px;
+    font-size: 18px;
   }
 `
-const StatList = styled.div`
+const StatList = styled.div<{ noRecovered: boolean }>`
   display: flex;
   color: var(--accent);
   animation: var(--fade-in);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;
-    justify-content: space-between;
+    justify-content: ${props => props.noRecovered ? 'space-around' : 'space-between'};
   }
 `
 const TodayAddition = styled.div`
@@ -91,7 +91,7 @@ export const Header = (props: DataItem) => {
     <Wrapper id="page-header">
       <Title>COVID-19</Title>
       {props.cases ? (
-        <StatList>
+        <StatList noRecovered={!props.recovered}>
           <StatWrapper>
             <StatLabel>Infected:</StatLabel>
             <StatNumber>{numeral(props.cases).format('0,0')}</StatNumber>
@@ -112,17 +112,19 @@ export const Header = (props: DataItem) => {
               </TodayAddition>
             ) : null}
           </StatWrapper>
-          <StatWrapper>
-            <StatLabel>Recoveries:</StatLabel>
-            <StatNumber style={{ color: 'var(--success)' }}>
-              {numeral(props.recovered).format('0,0')}
-            </StatNumber>
-            {props.todayRecovered ? (
-              <TodayAddition style={{ color: 'var(--success)' }}>
-                + {numeral(props.todayRecovered).format('0,0')} today
-              </TodayAddition>
-            ) : null}
-          </StatWrapper>
+          {props.recovered ? (
+            <StatWrapper>
+              <StatLabel>Recoveries:</StatLabel>
+              <StatNumber style={{ color: 'var(--success)' }}>
+                {numeral(props.recovered).format('0,0')}
+              </StatNumber>
+              {props.todayRecovered ? (
+                <TodayAddition style={{ color: 'var(--success)' }}>
+                  + {numeral(props.todayRecovered).format('0,0')} today
+                </TodayAddition>
+              ) : null}
+            </StatWrapper>
+          ) : null}
         </StatList>
       ) : null}
     </Wrapper>

@@ -1,5 +1,5 @@
 export const BREAKPOINTS = [970, 1580]
-export const START_DATE = '2/24/20'
+export const START_DATE = '1/22/20'
 export const STATE_MAP = {
   'WA': 'washington',
   'NY': 'new-york',
@@ -118,7 +118,7 @@ export const STATES = [
 ]
 export const DEFAULT_SEO = {
   title: 'COVID-19',
-  description: 'Covid-19 statistics for United States.',
+  description: 'Global Covid-19 statistics.',
   openGraph: {
     type: 'website',
     locale: 'en_US',

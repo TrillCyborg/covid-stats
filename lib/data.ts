@@ -1,5 +1,5 @@
 import moment from 'moment-timezone'
-import { nomalizeState } from './utils'
+import { nomalizeLocation } from './utils'
 
 const confirmedCSV = require('../data/time-series/confirmed.csv')
 const deathsCSV = require('../data/time-series/deaths.csv')
@@ -127,7 +127,7 @@ const parseData = (data: string) => {
 
     if (item.country === 'US') {
       item.dates = cells.slice(FIELDS.length).map(x => parseInt(x))
-      items[nomalizeState(item.state)] = item
+      items[nomalizeLocation(item.state)] = item
     }
   })
   return items
@@ -155,7 +155,7 @@ const getData = () => {
     })
   
     if (rowObj.country === 'US') {
-      obj[nomalizeState(row[0])] = rowObj
+      obj[nomalizeLocation(row[0])] = rowObj
       const confirmed = parseInt(rowObj.confirmed)
       const deaths = parseInt(rowObj.deaths)
       const recoveries = parseInt(rowObj.recovered)
