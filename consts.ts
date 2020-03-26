@@ -118,7 +118,7 @@ export const STATES = [
 ]
 export const DEFAULT_SEO = {
   title: 'COVID-19',
-  description: 'Covid-19 statistics for United States.',
+  description: 'Global Covid-19 statistics.',
   openGraph: {
     type: 'website',
     locale: 'en_US',
