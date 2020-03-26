@@ -37,31 +37,31 @@ const getWorldData = async () => {
   worldData.forEach(country => {
     let name = country.country
     let id = nomalizeLocation(name)
-    switch (country.country) {
-      case 'USA':
+    switch (name.toLowerCase()) {
+      case 'usa':
         name = 'United States'
         break;
-      case 'UK':
+      case 'uk':
         name = 'United Kingdom'
         break;
-      case 'UAE':
+      case 'uae':
         name = 'United Arab Emirates'
         break;
-      case 'DRC':
+      case 'drc':
         name = 'Democratic Republic of the Congo'
         break;
-      case 'CAR':
+      case 'car':
         name = 'Central African Republic'
         break;
-      case 'S. Korea':
+      case 's. korea':
         name = 'South Korea'
         id = nomalizeLocation(name)
         break;
-      case 'N. Korea':
+      case 'n. korea':
         name = 'North Korea'
         id = nomalizeLocation(name)
         break;
-      case 'North Macedonia':
+      case 'north macedonia':
         name = 'Macedonia'
         id = nomalizeLocation(name)
         break;
@@ -104,22 +104,23 @@ const getWorldChartData = async () => {
   worldHistorical.forEach(country => {
     let name = country.country
     let id = nomalizeLocation(name)
-    switch (country.country) {
-      case 'S. Korea':
+    switch (name.toLowerCase()) {
+      case 's. korea':
         name = 'South Korea'
         id = nomalizeLocation(name)
         break;
-      case 'N. Korea':
+      case 'n. korea':
         name = 'North Korea'
         id = nomalizeLocation(name)
         break;
-      case 'North Macedonia':
+      case 'north macedonia':
         name = 'Macedonia'
         id = nomalizeLocation(name)
         break;
       default:
         break;
     }
+
     countries[id] = {
       timeline: filteredDates.map((d, i) => {
         const date = moment(d)
@@ -146,6 +147,7 @@ const getWorldChartData = async () => {
       })
     }
   })
+
   return {
     global,
     items: countries

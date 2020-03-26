@@ -112,17 +112,19 @@ export const Header = (props: DataItem) => {
               </TodayAddition>
             ) : null}
           </StatWrapper>
-          <StatWrapper>
-            <StatLabel>Recoveries:</StatLabel>
-            <StatNumber style={{ color: 'var(--success)' }}>
-              {numeral(props.recovered).format('0,0')}
-            </StatNumber>
-            {props.todayRecovered ? (
-              <TodayAddition style={{ color: 'var(--success)' }}>
-                + {numeral(props.todayRecovered).format('0,0')} today
-              </TodayAddition>
-            ) : null}
-          </StatWrapper>
+          {props.recovered ? (
+            <StatWrapper>
+              <StatLabel>Recoveries:</StatLabel>
+              <StatNumber style={{ color: 'var(--success)' }}>
+                {numeral(props.recovered).format('0,0')}
+              </StatNumber>
+              {props.todayRecovered ? (
+                <TodayAddition style={{ color: 'var(--success)' }}>
+                  + {numeral(props.todayRecovered).format('0,0')} today
+                </TodayAddition>
+              ) : null}
+            </StatWrapper>
+          ) : null}
         </StatList>
       ) : null}
     </Wrapper>

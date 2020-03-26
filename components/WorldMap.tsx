@@ -66,7 +66,7 @@ export const WorldMap = (props: WorldMapProps) => {
       {/* <rect x={0} y={0} width={width} height={height} fill={background} rx={0} /> */}
       <Mercator
         data={map.features}
-        scale={dimentions.width <= BREAKPOINTS[0] ? width * 0.13 : width * 0.11}
+        scale={dimentions.width <= BREAKPOINTS[0] ? width * 0.15 : width * 0.11}
         translate={[width / 2, height / 2]}
       >
         {mercator => {

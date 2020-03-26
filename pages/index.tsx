@@ -30,7 +30,9 @@ const MapWrapper = styled.div`
 const Home = () => {
   const { data: globalData, error: globalDataError } = useSWR<Partial<DataItem>>('/global-data')
   const { data: worldData, error: worldDataError } = useSWR<Partial<Data>>('/world-data')
-  const { data: worldChartData, error: worldChartDataError } = useSWR<Partial<Data>>('/world-chart-data')
+  const { data: worldChartData, error: worldChartDataError } = useSWR<Partial<Data>>(
+    '/world-chart-data'
+  )
   const { data: usChartData, error: usChartDataError } = useSWR<Partial<DataItem>>('/us-chart-data')
   const { data: statesData, error: statesDataError } = useSWR<Partial<Data>>('/state-data')
   const [currentState, setCurrentState] = useState<string>('')
@@ -62,7 +64,7 @@ const Home = () => {
         Object.keys(worldChartData.items).forEach(key => {
           data.items[key] = {
             ...data.items[key],
-            timeline: worldChartData.items[key].timeline
+            timeline: worldChartData.items[key].timeline,
           }
         })
       }
@@ -74,13 +76,38 @@ const Home = () => {
       data.items.usa = {
         ...data.items.usa,
         ...(usChartData || {}),
-        ...(statesData && statesData.items && statesData.items
-          ? statesData.items.usa
-          : {}),
+        ...(statesData && statesData.items && statesData.items ? statesData.items.usa : {}),
       } as DataItem
     }
     return data
   }, [globalData, worldData, worldChartData, usChartData, statesData]) as Partial<Data>
+
+  const setState = (state: string) => {
+    if (
+      currentCountry &&
+      data &&
+      data.items &&
+      data.items[currentCountry] &&
+      data.items[currentCountry].states &&
+      data.items[currentCountry].states[state]
+    ) {
+      setCurrentState(state)
+    }
+  }
+
+  const setCountry = (country: string) => {
+    if (data && data.items && data.items[country]) {
+      setCurrentCountry(country)
+      setCurrentState('')
+    }
+  }
+
+  const clearState = () => setCurrentState('')
+
+  const clearCountry = () => {
+    setCurrentCountry('')
+    setCurrentState('')
+  }
 
   useEffect(() => {
     initialize()
@@ -91,7 +118,13 @@ const Home = () => {
   return data ? (
     <div className="container">
       <div id="page-wrapper">
-        <Header {...(currentCountry ? data.items[currentCountry] : data.global)} />
+        <Header
+          {...(currentState && currentCountry
+            ? data.items[currentCountry].states[currentState]
+            : currentCountry
+            ? data.items[currentCountry]
+            : data.global)}
+        />
         <MapWrapper>
           {currentCountry === 'usa' ? (
             <UnitedStatesMap
@@ -99,7 +132,7 @@ const Home = () => {
               width={width > BREAKPOINTS[0] ? width * 0.8 : width}
               height={height * 0.8}
               currentState={currentState}
-              setCurrentState={setCurrentState}
+              setCurrentState={setState}
             />
           ) : (
             <WorldMap
@@ -107,10 +140,7 @@ const Home = () => {
               width={width > BREAKPOINTS[0] ? width * 0.8 : width}
               height={height * 0.8}
               currentCountry={currentCountry}
-              setCurrentCountry={(country) => {
-                setCurrentCountry(country)
-                setCurrentState('')
-              }}
+              setCurrentCountry={setCountry}
             />
           )}
         </MapWrapper>
@@ -118,12 +148,9 @@ const Home = () => {
       </div>
       <Modal
         currentState={currentState}
-        clearState={() => setCurrentState('')}
+        clearState={clearState}
         currentCountry={currentCountry}
-        clearCountry={() => {
-          setCurrentCountry('')
-          setCurrentState('')
-        }}
+        clearCountry={clearCountry}
         data={data}
       />
     </div>
