@@ -131,8 +131,12 @@ export const Modal = (props: ModalProps) => {
         setMode={setMode}
         clear={!!state ? props.clearState : props.clearCountry}
       />
-      <ChartList data={data.timeline} width={width} height={height} mode={mode} />
-      <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
+      {data.timeline ? (
+        <>
+          <ChartList data={data.timeline} width={width} height={height} mode={mode} />
+          <LastUpdated date={data.timeline[data.timeline.length - 1].date} />
+        </>
+      ) : null}
     </Wrapper>
   ) : null
 }
