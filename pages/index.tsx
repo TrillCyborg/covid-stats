@@ -30,9 +30,7 @@ const MapWrapper = styled.div`
 const Home = () => {
   const { data: globalData, error: globalDataError } = useSWR<Partial<DataItem>>('/global-data')
   const { data: worldData, error: worldDataError } = useSWR<Partial<Data>>('/world-data')
-  const { data: worldChartData, error: worldChartDataError } = useSWR<Partial<Data>>(
-    '/world-chart-data'
-  )
+  const { data: worldChartData, error: worldChartDataError } = useSWR<Partial<Data>>('/world-chart-data')
   const { data: usChartData, error: usChartDataError } = useSWR<Partial<DataItem>>('/us-chart-data')
   const { data: statesData, error: statesDataError } = useSWR<Partial<Data>>('/state-data')
   const [currentState, setCurrentState] = useState<string>('')
@@ -44,6 +42,8 @@ const Home = () => {
       worldDataLoaded: !!worldData,
       usChartDataLoaded: !!usChartData,
       statesDataLoaded: !!statesData,
+      globalDataLoaded: !!globalData,
+      worldChartDataLoaded: !!worldChartData,
       items: {},
     } as Partial<Data>
     if (globalData) {
@@ -144,7 +144,7 @@ const Home = () => {
             />
           )}
         </MapWrapper>
-        {data && data.usDataLoaded && data.usChartDataLoaded ? <Footer /> : null}
+        {data && data.globalDataLoaded && data.worldChartDataLoaded ? <Footer /> : null}
       </div>
       <Modal
         currentState={currentState}

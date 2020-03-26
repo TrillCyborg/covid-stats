@@ -28,6 +28,8 @@ export type Data = {
   usDataLoaded?: boolean
   usChartDataLoaded?: boolean
   statesDataLoaded?: boolean
+  globalDataLoaded?: boolean
+  worldChartDataLoaded?: boolean
   mostInfected: number
   global: DataItem
   items: {
