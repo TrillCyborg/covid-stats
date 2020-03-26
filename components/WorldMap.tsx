@@ -85,7 +85,7 @@ export const WorldMap = (props: WorldMapProps) => {
                 .add({
                   strokeDashoffset: [anime.setDashoffset, 0],
                   delay: function(el, i) {
-                    return i * 15
+                    return i * 10
                   },
                 }, 0)
                 .add({
@@ -95,9 +95,9 @@ export const WorldMap = (props: WorldMapProps) => {
                     return data ? color(data.cases) : background
                   },
                   delay: function(el, i) {
-                    return i * 10
+                    return i * 5
                   },
-                }, 600)
+                }, 800)
               return () => {}
             }
             return () => {}

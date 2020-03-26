@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useWindowSize } from 'react-use'
 import useSWR from 'swr'
 import styled from '@emotion/styled'
-// import { UnitedStatesMap } from '../components/UnitedStatesMap'
+import { UnitedStatesMap } from '../components/UnitedStatesMap'
 import { WorldMap } from '../components/WorldMap'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
@@ -30,6 +30,7 @@ const MapWrapper = styled.div`
 const Home = () => {
   const { data: globalData, error: globalDataError } = useSWR<Partial<DataItem>>('/global-data')
   const { data: worldData, error: worldDataError } = useSWR<Partial<Data>>('/world-data')
+  const { data: worldChartData, error: worldChartDataError } = useSWR<Partial<Data>>('/world-chart-data')
   const { data: usChartData, error: usChartDataError } = useSWR<Partial<DataItem>>('/us-chart-data')
   const { data: statesData, error: statesDataError } = useSWR<Partial<Data>>('/state-data')
   const [currentState, setCurrentState] = useState<string>('')
@@ -49,6 +50,22 @@ const Home = () => {
     if (worldData) {
       data.mostInfected = worldData.mostInfected
       data.items = worldData.items
+      if (worldChartData) {
+        if (globalData) {
+          data.global = {
+            ...data.global,
+            ...worldChartData.global,
+          }
+        } else {
+          data.global = worldChartData.global
+        }
+        Object.keys(worldChartData.items).forEach(key => {
+          data.items[key] = {
+            ...data.items[key],
+            timeline: worldChartData.items[key].timeline
+          }
+        })
+      }
     }
     if (usChartData || statesData) {
       if (!data.items.usa) {
@@ -63,7 +80,7 @@ const Home = () => {
       } as DataItem
     }
     return data
-  }, [globalData, worldData, usChartData, statesData]) as Partial<Data>
+  }, [globalData, worldData, worldChartData, usChartData, statesData]) as Partial<Data>
 
   useEffect(() => {
     initialize()
@@ -74,26 +91,41 @@ const Home = () => {
   return data ? (
     <div className="container">
       <div id="page-wrapper">
-        <Header {...data.global} />
+        <Header {...(currentCountry ? data.items[currentCountry] : data.global)} />
         <MapWrapper>
-          {/* <UnitedStatesMap
-            data={data}
-            width={width > BREAKPOINTS[0] ? width * 0.8 : width}
-            height={height * 0.8}
-            currentState={currentState}
-            setCurrentState={setCurrentState}
-          /> */}
-          <WorldMap
-            data={data}
-            width={width > BREAKPOINTS[0] ? width * 0.8 : width}
-            height={height * 0.8}
-            currentCountry={currentCountry}
-            setCurrentCountry={setCurrentCountry}
-          />
+          {currentCountry === 'usa' ? (
+            <UnitedStatesMap
+              data={data}
+              width={width > BREAKPOINTS[0] ? width * 0.8 : width}
+              height={height * 0.8}
+              currentState={currentState}
+              setCurrentState={setCurrentState}
+            />
+          ) : (
+            <WorldMap
+              data={data}
+              width={width > BREAKPOINTS[0] ? width * 0.8 : width}
+              height={height * 0.8}
+              currentCountry={currentCountry}
+              setCurrentCountry={(country) => {
+                setCurrentCountry(country)
+                setCurrentState('')
+              }}
+            />
+          )}
         </MapWrapper>
         {data && data.usDataLoaded && data.usChartDataLoaded ? <Footer /> : null}
       </div>
-      <Modal currentState={currentState} clearState={() => setCurrentState('')} data={data} />
+      <Modal
+        currentState={currentState}
+        clearState={() => setCurrentState('')}
+        currentCountry={currentCountry}
+        clearCountry={() => {
+          setCurrentCountry('')
+          setCurrentState('')
+        }}
+        data={data}
+      />
     </div>
   ) : null
 }

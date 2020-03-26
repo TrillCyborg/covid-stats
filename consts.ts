@@ -1,5 +1,5 @@
 export const BREAKPOINTS = [970, 1580]
-export const START_DATE = '2/24/20'
+export const START_DATE = '1/22/20'
 export const STATE_MAP = {
   'WA': 'washington',
   'NY': 'new-york',

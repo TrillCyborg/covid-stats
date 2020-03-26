@@ -1,7 +1,7 @@
 import { find } from 'lodash'
 import moment from 'moment-timezone'
-import { nomalizeLocation, DataItem, Data } from '../lib/utils'
-import { START_DATE, STATES, STATE_MAP } from '../consts'
+import { nomalizeLocation, DataItem, DateItem, Data } from '../lib/utils'
+import { START_DATE, STATES } from '../consts'
 
 // const serverEndpoint = 'https://api.covidstats.app'
 const serverEndpoint = 'https://corona.lmao.ninja'
@@ -23,7 +23,11 @@ const filterRelevantDates = (dates: string[]) =>
 
 const getGlobalData = async () => {
   const globalData = await fetch(`${serverEndpoint}/all`).then(res => res.json())
-  return globalData
+  return {
+    id: 'global',
+    name: 'Global',
+    ...globalData
+  }
 }
 
 const getWorldData = async () => {
@@ -86,6 +90,66 @@ const getUSData = async () => {
     ...usaData,
     name: 'United States',
   } as Partial<DataItem>
+}
+
+const getWorldChartData = async () => {
+  const worldHistorical = await fetch(`${serverEndpoint}/v2/historical`).then(res => res.json())
+  const filteredDates = filterRelevantDates(Object.keys(worldHistorical[0].timeline.cases))
+  const countries = {}
+  const global = {
+    id: 'global',
+    name: 'Global',
+    timeline: []
+  } as Partial<DataItem>
+  worldHistorical.forEach(country => {
+    let name = country.country
+    let id = nomalizeLocation(name)
+    switch (country.country) {
+      case 'S. Korea':
+        name = 'South Korea'
+        id = nomalizeLocation(name)
+        break;
+      case 'N. Korea':
+        name = 'North Korea'
+        id = nomalizeLocation(name)
+        break;
+      case 'North Macedonia':
+        name = 'Macedonia'
+        id = nomalizeLocation(name)
+        break;
+      default:
+        break;
+    }
+    countries[id] = {
+      timeline: filteredDates.map((d, i) => {
+        const date = moment(d)
+          .tz('Etc/GMT')
+          .format('M/D/YY')
+        if (!global.timeline[i]) {
+          global.timeline[i] = {
+            date: d,
+            confirmed: parseInt(country.timeline.cases[date], 10),
+            deaths: parseInt(country.timeline.deaths[date], 10),
+            // recoveries: parseInt(country.timeline.recovered[date], 10),
+          } as DateItem
+        } else {
+          global.timeline[i].confirmed = global.timeline[i].confirmed + parseInt(country.timeline.cases[date], 10)
+          global.timeline[i].deaths = global.timeline[i].deaths + parseInt(country.timeline.deaths[date], 10)
+          // global.timeline[i].recoveries = global.timeline[i].recoveries + parseInt(country.timeline.recovered[date], 10)
+        }
+        return {
+          date: d,
+          confirmed: parseInt(country.timeline.cases[date], 10),
+          deaths: parseInt(country.timeline.deaths[date], 10),
+          // recoveries: parseInt(country.timeline.recovered[date], 10),
+        }
+      })
+    }
+  })
+  return {
+    global,
+    items: countries
+  } as Partial<Data>
 }
 
 const getUSChartData = async () => {
@@ -162,6 +226,8 @@ export const fetcher = async (
       return getGlobalData()
     case '/world-data':
       return getWorldData()
+    case '/world-chart-data':
+      return getWorldChartData()
     case '/us-data':
       return getUSData()
     case '/us-chart-data':

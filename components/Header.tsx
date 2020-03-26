@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   width: calc(70% - 30px);
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1;
   animation: var(--fade-in);
 
@@ -59,7 +59,7 @@ const StatNumber = styled.span`
   font-family: Orbitron;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 20px;
+    font-size: 18px;
   }
 `
 const StatList = styled.div`
