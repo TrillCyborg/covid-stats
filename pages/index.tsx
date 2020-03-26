@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useWindowSize } from 'react-use'
 import useSWR from 'swr'
 import styled from '@emotion/styled'
-import { UnitedStatesMap } from '../components/UnitedStatesMap'
+// import { UnitedStatesMap } from '../components/UnitedStatesMap'
 import { WorldMap } from '../components/WorldMap'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
@@ -126,7 +126,7 @@ const Home = () => {
             : data.global)}
         />
         <MapWrapper>
-          {currentCountry === 'usa' ? (
+          {/* {currentCountry === 'usa' ? (
             <UnitedStatesMap
               data={data}
               width={width > BREAKPOINTS[0] ? width * 0.8 : width}
@@ -134,7 +134,7 @@ const Home = () => {
               currentState={currentState}
               setCurrentState={setState}
             />
-          ) : (
+          ) : ( */}
             <WorldMap
               data={data}
               width={width > BREAKPOINTS[0] ? width * 0.8 : width}
@@ -142,7 +142,7 @@ const Home = () => {
               currentCountry={currentCountry}
               setCurrentCountry={setCountry}
             />
-          )}
+          {/* )} */}
         </MapWrapper>
         {data && data.globalDataLoaded && data.worldChartDataLoaded ? <Footer /> : null}
       </div>

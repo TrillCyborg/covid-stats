@@ -31,9 +31,8 @@ const BackButton = styled.div`
 interface ModalHeaderProps {
   data: DataItem
   mode: ChartMode
-  isState: boolean
-  isCountry: boolean
-  countryName?: string
+  state?: DataItem
+  country?: DataItem
   setMode: (mode: ChartMode) => void
   clear: () => void
 }
@@ -50,23 +49,35 @@ export const ModalHeader = (props: ModalHeaderProps) => (
     </div>
     <MobileTogglaWrapper>
       <ToggleChartButton value={props.mode} onClick={props.setMode} />
-      {props.isState ? (
-        <BackButton onClick={props.clear}>{props.countryName}</BackButton>
-      ) : props.isCountry ? (
+      {!!props.state && !!props.country ? (
+        <BackButton onClick={props.clear}>{props.country.name}</BackButton>
+      ) : !!props.country ? (
         <BackButton onClick={props.clear}>Global</BackButton>
       ) : null}
     </MobileTogglaWrapper>
     {!!props.data ? (
       <TogglaWrapper>
-        <BackButton
-          style={{ marginTop: 6 }}
-          onClick={() => {
-            logExitStateClick()
-            props.clear()
-          }}
-        >
-          United States
-        </BackButton>
+        {!!props.state && !!props.country ? (
+          <BackButton
+            style={{ marginTop: 6 }}
+            onClick={() => {
+              logExitStateClick()
+              props.clear()
+            }}
+          >
+            {props.country.name}
+          </BackButton>
+        ) : !!props.country ? (
+          <BackButton
+            style={{ marginTop: 6 }}
+            onClick={() => {
+              logExitStateClick()
+              props.clear()
+            }}
+          >
+            Global
+          </BackButton>
+        ) : null}
       </TogglaWrapper>
     ) : null}
   </div>

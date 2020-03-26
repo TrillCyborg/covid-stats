@@ -124,9 +124,8 @@ export const Modal = (props: ModalProps) => {
     <Wrapper id="info-modal">
       <ModalHeader
         data={data}
-        isCountry={!!country}
-        isState={!!state}
-        countryName={!!country ? country.name : undefined}
+        country={country}
+        state={state}
         mode={mode}
         setMode={setMode}
         clear={!!state ? props.clearState : props.clearCountry}
