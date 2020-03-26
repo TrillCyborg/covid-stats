@@ -62,14 +62,14 @@ const StatNumber = styled.span`
     font-size: 18px;
   }
 `
-const StatList = styled.div`
+const StatList = styled.div<{ noRecovered: boolean }>`
   display: flex;
   color: var(--accent);
   animation: var(--fade-in);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;
-    justify-content: space-between;
+    justify-content: ${props => props.noRecovered ? 'space-around' : 'space-between'};
   }
 `
 const TodayAddition = styled.div`
@@ -91,7 +91,7 @@ export const Header = (props: DataItem) => {
     <Wrapper id="page-header">
       <Title>COVID-19</Title>
       {props.cases ? (
-        <StatList>
+        <StatList noRecovered={!props.recovered}>
           <StatWrapper>
             <StatLabel>Infected:</StatLabel>
             <StatNumber>{numeral(props.cases).format('0,0')}</StatNumber>
